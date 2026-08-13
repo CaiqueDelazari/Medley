@@ -402,6 +402,37 @@
   }
   body.admin .fig-thumbs button { position: relative; }
 
+  /* ---- setas por cima da foto grande ----
+     Passam para a foto anterior e a seguinte. Só existem quando o modelo
+     tem mais de uma foto. Chegando no fim, voltam para a primeira. */
+  .fig-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    padding: 0 0 3px;          /* acerta o chevron no meio do círculo */
+    border: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,.86);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: background .15s ease, color .15s ease;
+  }
+  .fig-nav:hover { background: #FFFFFF; color: var(--accent-deep); }
+  .fig-nav.ant  { left: 12px; }
+  .fig-nav.prox { right: 12px; }
+  /* no modo edição a barra de botões come a parte de baixo da foto:
+     sobe as setas para não ficarem por cima dela */
+  body.admin .fig-nav { top: 42%; }
+
   .model-fig .badge {
     position: absolute;
     top: 16px; left: 16px;
@@ -1387,13 +1418,42 @@
     /* qual foto está grande agora — os botões de edição olham para isto */
     fig.dataset.i = "0";
 
+    var tira = null;   /* a fileira de miniaturas, quando existir */
+
+    /* Põe a foto i na tela grande e acerta a miniatura marcada. Índice
+       que passa do fim volta ao começo, e o que fica antes do zero vai
+       para a última — as setas giram em roda, nunca travam. */
+    function mostrar(i) {
+      if (!fotos.length) { return; }
+      i = ((i % fotos.length) + fotos.length) % fotos.length;
+      img.src = fotos[i].u;
+      img.classList.remove("missing");
+      img.style.display = "";
+      fig.dataset.i = String(i);
+      if (tira) {
+        [].slice.call(tira.children).forEach(function (o, j) {
+          o.classList.toggle("on", j === i);
+        });
+      }
+    }
+
+    /* com uma foto só não há para onde passar */
+    if (fotos.length > 1) {
+      var ant = botao("fig-nav ant", "‹", "Foto anterior");
+      var prox = botao("fig-nav prox", "›", "Próxima foto");
+      ant.addEventListener("click", function () { mostrar(Number(fig.dataset.i || 0) - 1); });
+      prox.addEventListener("click", function () { mostrar(Number(fig.dataset.i || 0) + 1); });
+      fig.appendChild(ant);
+      fig.appendChild(prox);
+    }
+
     card.appendChild(fig);
 
     /* Miniaturas: para o visitante só fazem sentido com duas ou mais.
        No modo edição aparecem sempre, para a dona escolher em qual foto
        vai mexer. */
     if (fotos.length > 1 || (editando && fotos.length)) {
-      var tira = elem("div", "fig-thumbs");
+      tira = elem("div", "fig-thumbs");
       fotos.forEach(function (f, i) {
         var b = botao(i === 0 ? "on" : "", "", "Ver esta foto");
         var mini = document.createElement("img");
@@ -1401,14 +1461,7 @@
         mini.alt = "";
         mini.loading = "lazy";
         b.appendChild(mini);
-        b.addEventListener("click", function () {
-          img.src = f.u;
-          img.classList.remove("missing");
-          img.style.display = "";
-          fig.dataset.i = String(i);
-          [].slice.call(tira.children).forEach(function (o) { o.classList.remove("on"); });
-          b.classList.add("on");
-        });
+        b.addEventListener("click", function () { mostrar(i); });
         tira.appendChild(b);
       });
       card.appendChild(tira);
