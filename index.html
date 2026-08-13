@@ -1943,7 +1943,7 @@
 
     recado = document.createElement("span");
     recado.className = "ab-msg";
-    recado.textContent = "Clique em qualquer texto tracejado para reescrever. Nas fotos, use “Trocar foto”. Tudo é salvo no banco na hora.";
+    recado.textContent = "Clique em qualquer texto tracejado para reescrever. Nas fotos, use “+ Adicionar foto”. Tudo é salvo no banco na hora.";
 
     var acoes = document.createElement("span");
     acoes.className = "ab-acts";
@@ -2035,8 +2035,10 @@
     )) { return; }
     avisar("Limpando…");
     try {
+      /* todas as fotos de todos os modelos, não só as capas */
       var arquivos = MODELOS
-        .map(function (m) { return m.foto_caminho || ""; })
+        .reduce(function (todas, m) { return todas.concat(fotosDo(m)); }, [])
+        .map(function (f) { return f.c || ""; })
         .filter(function (n) { return !!n; });
       if (arquivos.length) { await sb.storage.from(BALDE).remove(arquivos); }
       await sb.from("bolin_modelos").delete().neq("nome", " ");
