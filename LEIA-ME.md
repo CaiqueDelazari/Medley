@@ -2,9 +2,9 @@
 
 Página única de atacado (`bolin-lead-page.html`). A seção **Linha BOLIN** é um
 catálogo de verdade: a administradora entra com e-mail e senha e cria, edita,
-reordena, esconde e apaga modelos — cada um com foto, tarja, texto de venda e
-ficha técnica própria. O que ela salva vai para o banco e aparece na hora para
-quem abrir o site.
+reordena, esconde e apaga modelos — cada um com **várias fotos**, tarja, texto
+de venda e ficha técnica própria. O que ela salva vai para o banco e aparece na
+hora para quem abrir o site.
 
 ## Arquivos
 
@@ -89,7 +89,11 @@ e crie o novo usuário no painel.
 
 1. Clica no **cadeado** no canto superior direito e digita a senha
 2. **+ Novo modelo** embaixo da lista cria um card em branco
-3. Em cima da foto: **Trocar foto** (a imagem é reduzida e enviada sozinha)
+3. Em cima da foto: **+ Adicionar foto** (dá para marcar várias de uma vez; cada
+   imagem é reduzida e enviada sozinha). As fotos viram **miniaturas embaixo do
+   card** — clicar numa miniatura mostra ela grande. Com a foto escolhida na
+   tela: **Capa** faz dela a primeira (a que abre o card) e **Remover** tira só
+   aquela foto, não o modelo.
 4. Clica em qualquer **texto tracejado** — nome, tarja, texto de venda, e cada
    rótulo e valor da ficha técnica — e reescreve. Ao sair do campo, salva.
 5. Na barra de cada card: **↑ ↓** reordena · **+ linha na ficha** acrescenta uma
@@ -103,6 +107,10 @@ Detalhes úteis:
 
 - Cada modelo tem a **sua** ficha técnica. Uma scooter pode ter "Velocidade" e
   outra "Pneu" — não precisam ter as mesmas linhas.
+- Quantas fotos quiser por modelo. O visitante só vê a fileira de miniaturas
+  quando tem **duas ou mais**; com uma foto só, o card fica igual a antes. No
+  modo edição as miniaturas aparecem sempre, para dar onde clicar.
+- Apagar um modelo leva junto **todas** as fotos dele do armazenamento.
 - **Escondido** é melhor que apagar quando o modelo vai voltar: sai do site mas
   continua cadastrado, com foto e ficha.
 - Tarja vazia simplesmente não aparece no site.

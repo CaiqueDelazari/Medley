@@ -56,14 +56,20 @@ grant execute on function public.eh_dono_bolin() to anon, authenticated;
 --      [{"r": "Motor", "v": "2.000 W"}, {"r": "Bateria", "v": "48 V"}]
 --    Assim uma scooter pode ter "Velocidade" e outra "Pneu", sem obrigar
 --    todas a terem as mesmas linhas.
+--
+--    fotos = a galeria do modelo, uma lista de fotos na ordem em que
+--    aparecem. A primeira é a capa (a que abre o card):
+--      [{"u": "https://…/foto1.jpg", "c": "id-123.jpg"}, …]
+--      u = endereço público    c = arquivo dentro do balde, para apagar
 -- ---------------------------------------------------------------------
 create table if not exists public.bolin_modelos (
   id           uuid primary key default gen_random_uuid(),
   nome         text not null default 'Novo modelo',
   selo         text default '',          -- tarja da foto: "Mais vendida", "Topo de linha"…
   pitch        text default '',          -- o texto de venda embaixo do nome
-  foto         text default '',          -- endereço público da imagem
-  foto_caminho text default '',          -- arquivo dentro do balde, para apagar na troca
+  foto         text default '',          -- cópia da capa (fotos[0]), ver nota abaixo
+  foto_caminho text default '',          -- cópia do arquivo da capa
+  fotos        jsonb not null default '[]'::jsonb,   -- a galeria inteira
   specs        jsonb not null default '[]'::jsonb,
   ativo        boolean not null default true,   -- false = some do site sem ser apagado
   ordem        int not null default 0,          -- menor aparece primeiro
@@ -72,6 +78,25 @@ create table if not exists public.bolin_modelos (
 
 create index if not exists bolin_modelos_ordem_idx
   on public.bolin_modelos (ativo, ordem);
+
+-- A galeria chegou depois, quando cada modelo passou a ter várias fotos.
+-- As duas linhas abaixo fazem os catálogos antigos virarem galeria sozinhos
+-- e podem rodar quantas vezes quiser.
+alter table public.bolin_modelos
+  add column if not exists fotos jsonb not null default '[]'::jsonb;
+
+-- quem tinha foto única e ainda não tem galeria: a foto vira a primeira
+update public.bolin_modelos
+   set fotos = jsonb_build_array(
+         jsonb_build_object('u', foto, 'c', coalesce(foto_caminho, ''))
+       )
+ where coalesce(foto, '') <> ''
+   and jsonb_array_length(coalesce(fotos, '[]'::jsonb)) = 0;
+
+-- Nota: 'foto' e 'foto_caminho' continuam existindo de propósito, sempre
+-- iguais à primeira foto da galeria. Assim, se um dia a página abrir antes
+-- do banco responder — ou alguém ler a tabela por fora — a capa continua
+-- num campo simples. Quem manda é 'fotos'; a página mantém as duas em dia.
 
 
 -- ---------------------------------------------------------------------

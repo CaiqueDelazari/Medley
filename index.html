@@ -360,6 +360,48 @@
     letter-spacing: .04em;
   }
   .model-fig img:not(.missing) + .ph { display: none; }
+
+  /* ---- galeria: as outras fotos do modelo, embaixo da foto grande ----
+     Clicou na miniatura, ela vira a foto grande. Só aparece quando o
+     modelo tem mais de uma foto (no modo edição aparece sempre). */
+  .fig-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px 16px 0;
+  }
+  .fig-thumbs button {
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: 1.5px solid var(--line-2);
+    border-radius: 10px;
+    background: var(--paper);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .fig-thumbs button:hover { border-color: var(--accent); }
+  .fig-thumbs button.on {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--tint);
+  }
+  .fig-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* a primeira é a capa — marca discreta só para a dona */
+  body.admin .fig-thumbs button:first-child::after {
+    content: "capa";
+    position: absolute;
+    inset: auto 0 0;
+    background: rgba(28,22,18,.72);
+    color: #FFFFFF;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 1px 0;
+  }
+  body.admin .fig-thumbs button { position: relative; }
+
   .model-fig .badge {
     position: absolute;
     top: 16px; left: 16px;
@@ -1301,10 +1343,31 @@
     return tr;
   }
 
+  /* As fotos do modelo, na ordem — a primeira é a capa. Catálogo antigo,
+     de quando cada modelo tinha uma foto só na coluna 'foto', continua
+     funcionando: vira uma galeria de um item. */
+  function fotosDo(m) {
+    var lista = Array.isArray(m.fotos) ? m.fotos.slice() : [];
+    if (!lista.length && m.foto) { lista = [{ u: m.foto, c: m.foto_caminho || "" }]; }
+    return lista.filter(function (f) { return f && f.u; });
+  }
+
+  /* grava a galeria e mantém 'foto'/'foto_caminho' sempre iguais à capa */
+  function salvarFotos(m, lista) {
+    return salvar(m, {
+      fotos: lista,
+      foto: lista.length ? lista[0].u : "",
+      foto_caminho: lista.length ? (lista[0].c || "") : ""
+    });
+  }
+
   function montarCard(m) {
     var card = elem("article", "model rv in");
     card.dataset.id = m.id;
     if (!m.ativo) { card.setAttribute("data-oculto", ""); }
+
+    var fotos = fotosDo(m);
+    var editando = body.classList.contains("admin");
 
     var fig = elem("div", "model-fig");
     fig.appendChild(elem("span", "badge", m.selo || ""));
@@ -1316,10 +1379,40 @@
       img.classList.add("missing");
       img.style.display = "none";
     });
-    if (m.foto) { img.src = m.foto; }
+    if (fotos.length) { img.src = fotos[0].u; }
     else { img.classList.add("missing"); img.style.display = "none"; }
     fig.appendChild(img);
     fig.appendChild(elem("span", "ph", "Sem foto ainda"));
+
+    /* qual foto está grande agora — os botões de edição olham para isto */
+    fig.dataset.i = "0";
+
+    card.appendChild(fig);
+
+    /* Miniaturas: para o visitante só fazem sentido com duas ou mais.
+       No modo edição aparecem sempre, para a dona escolher em qual foto
+       vai mexer. */
+    if (fotos.length > 1 || (editando && fotos.length)) {
+      var tira = elem("div", "fig-thumbs");
+      fotos.forEach(function (f, i) {
+        var b = botao(i === 0 ? "on" : "", "", "Ver esta foto");
+        var mini = document.createElement("img");
+        mini.src = f.u;
+        mini.alt = "";
+        mini.loading = "lazy";
+        b.appendChild(mini);
+        b.addEventListener("click", function () {
+          img.src = f.u;
+          img.classList.remove("missing");
+          img.style.display = "";
+          fig.dataset.i = String(i);
+          [].slice.call(tira.children).forEach(function (o) { o.classList.remove("on"); });
+          b.classList.add("on");
+        });
+        tira.appendChild(b);
+      });
+      card.appendChild(tira);
+    }
 
     var corpo = elem("div", "model-body");
     corpo.appendChild(elem("h3", "", m.nome || ""));
@@ -1331,7 +1424,6 @@
     tabela.appendChild(tbody);
     corpo.appendChild(tabela);
 
-    card.appendChild(fig);
     card.appendChild(corpo);
     return card;
   }
@@ -1400,7 +1492,9 @@
     if (!window.confirm("Apagar “" + (m.nome || "este modelo") + "” do catálogo? Isto não tem volta.")) { return; }
     var r = await sb.from("bolin_modelos").delete().eq("id", m.id);
     if (r.error) { throw r.error; }
-    if (m.foto_caminho) { await sb.storage.from(BALDE).remove([m.foto_caminho]); }
+    /* leva junto todas as fotos da galeria, para não sobrar arquivo no balde */
+    var caminhos = fotosDo(m).map(function (f) { return f.c; }).filter(Boolean);
+    if (caminhos.length) { await sb.storage.from(BALDE).remove(caminhos); }
     MODELOS = MODELOS.filter(function (x) { return x.id !== m.id; });
     renderModelos();
   }
@@ -1420,33 +1514,66 @@
     renderModelos();
   }
 
-  /* sobe o arquivo, aponta o modelo para ele e apaga a foto antiga */
-  async function trocarFotoModelo(m, blob) {
-    var antigo = m.foto_caminho || "";
-    var nome = m.id + "-" + Date.now() + ".jpg";
+  /* Sobe uma ou várias fotos e acrescenta no fim da galeria do modelo.
+     Uma foto que falhe não derruba as outras: ela é avisada e pulada. */
+  async function enviarFotos(m, arquivos) {
+    var novas = [];
+    var falhas = 0;
 
-    var envio = await sb.storage.from(BALDE).upload(nome, blob, {
-      cacheControl: "3600",
-      contentType: "image/jpeg",
-      upsert: false
-    });
-    if (envio.error) { throw envio.error; }
+    for (var i = 0; i < arquivos.length; i++) {
+      avisar(arquivos.length > 1
+        ? "Enviando foto " + (i + 1) + " de " + arquivos.length + "…"
+        : "Preparando a imagem…");
 
-    var url = sb.storage.from(BALDE).getPublicUrl(nome).data.publicUrl;
+      var blob = await new Promise(function (pronto) { comprimir(arquivos[i], pronto); });
+      if (!blob) { falhas++; continue; }
+
+      var nome = m.id + "-" + Date.now() + "-" + i + ".jpg";
+      var envio = await sb.storage.from(BALDE).upload(nome, blob, {
+        cacheControl: "3600",
+        contentType: "image/jpeg",
+        upsert: false
+      });
+      if (envio.error) { falhas++; continue; }
+
+      novas.push({ u: sb.storage.from(BALDE).getPublicUrl(nome).data.publicUrl, c: nome });
+    }
+
+    if (!novas.length) {
+      avisar("Não consegui enviar nenhuma das fotos. Use JPG ou PNG.");
+      return;
+    }
+
     try {
-      await salvar(m, { foto: url, foto_caminho: nome });
+      await salvarFotos(m, fotosDo(m).concat(novas));
     } catch (e) {
-      await sb.storage.from(BALDE).remove([nome]);   /* não deixa arquivo órfão */
+      /* não deixa arquivo órfão no balde se o banco recusar */
+      await sb.storage.from(BALDE).remove(novas.map(function (f) { return f.c; }));
       throw e;
     }
-    if (antigo) { await sb.storage.from(BALDE).remove([antigo]); }
+
+    renderModelos();
+    avisar((novas.length > 1 ? novas.length + " fotos publicadas" : "Foto publicada")
+      + (falhas ? " — " + falhas + " não deram certo." : ". Já aparece" + (novas.length > 1 ? "m" : "") + " para quem abrir a página."));
+  }
+
+  /* tira da galeria a foto que está aparecendo grande */
+  async function removerFotoModelo(m, i) {
+    var lista = fotosDo(m);
+    if (!lista.length) { return; }
+    if (!(i >= 0 && i < lista.length)) { i = 0; }
+    var saiu = lista.splice(i, 1)[0];
+    await salvarFotos(m, lista);
+    if (saiu && saiu.c) { await sb.storage.from(BALDE).remove([saiu.c]); }
     renderModelos();
   }
 
-  async function removerFotoModelo(m) {
-    var antigo = m.foto_caminho || "";
-    await salvar(m, { foto: "", foto_caminho: "" });
-    if (antigo) { await sb.storage.from(BALDE).remove([antigo]); }
+  /* põe na frente a foto que está aparecendo — ela passa a ser a capa */
+  async function virarCapa(m, i) {
+    var lista = fotosDo(m);
+    if (!i || i >= lista.length) { return; }
+    lista.unshift(lista.splice(i, 1)[0]);
+    await salvarFotos(m, lista);
     renderModelos();
   }
 
@@ -1650,40 +1777,55 @@
   }
 
   function ligarFoto(card, m) {
+    var fig = card.querySelector(".model-fig");
     var caixa = elem("div", "fig-edit");
     caixa.setAttribute("data-admin-ui", "");
 
     var entrada = document.createElement("input");
     entrada.type = "file";
     entrada.accept = "image/*";
+    entrada.multiple = true;      /* dá para escolher várias de uma vez */
     entrada.hidden = true;
 
-    var trocar = botao("", "Trocar foto");
-    var remover = botao("ghost", "Remover");
+    /* "Capa" e "Remover" agem sobre a foto que está grande na hora */
+    var add = botao("", "+ Adicionar foto", "Acrescentar fotos a este modelo");
+    var capa = botao("ghost", "Capa", "Fazer desta a foto de capa do modelo");
+    var remover = botao("ghost", "Remover", "Tirar do modelo a foto que está aparecendo");
 
-    trocar.addEventListener("click", function () { entrada.click(); });
+    if (!fotosDo(m).length) {
+      capa.hidden = true;
+      remover.hidden = true;
+    }
 
-    entrada.addEventListener("change", function () {
-      var arquivo = entrada.files && entrada.files[0];
+    add.addEventListener("click", function () { entrada.click(); });
+
+    entrada.addEventListener("change", async function () {
+      var arquivos = [].slice.call(entrada.files || []);
       entrada.value = "";
-      if (!arquivo) { return; }
-      avisar("Preparando a imagem…");
-      comprimir(arquivo, async function (blob) {
-        if (!blob) { avisar("Não consegui ler esse arquivo. Use um JPG ou PNG."); return; }
-        avisar("Enviando a foto…");
-        try {
-          await trocarFotoModelo(m, blob);
-          avisar("Foto publicada. Já aparece para quem abrir a página.");
-        } catch (e) {
-          avisar("Não consegui enviar a foto: " + (e.message || e));
-        }
-      });
+      if (!arquivos.length) { return; }
+      try {
+        await enviarFotos(m, arquivos);
+      } catch (e) {
+        avisar("Não consegui enviar: " + (e.message || e));
+      }
+    });
+
+    capa.addEventListener("click", async function () {
+      var i = Number(fig.dataset.i || 0);
+      if (!i) { avisar("Esta foto já é a capa."); return; }
+      avisar("Trocando a capa…");
+      try {
+        await virarCapa(m, i);
+        avisar("Capa trocada. É esta que abre o card.");
+      } catch (e) {
+        avisar("Não consegui trocar a capa: " + (e.message || e));
+      }
     });
 
     remover.addEventListener("click", async function () {
       avisar("Removendo…");
       try {
-        await removerFotoModelo(m);
+        await removerFotoModelo(m, Number(fig.dataset.i || 0));
         avisar("Foto removida deste modelo.");
       } catch (e) {
         avisar("Não consegui remover: " + (e.message || e));
@@ -1691,9 +1833,10 @@
     });
 
     caixa.appendChild(entrada);
-    caixa.appendChild(trocar);
+    caixa.appendChild(add);
+    caixa.appendChild(capa);
     caixa.appendChild(remover);
-    card.querySelector(".model-fig").appendChild(caixa);
+    fig.appendChild(caixa);
   }
 
   function ligarAcoes(card, m) {
