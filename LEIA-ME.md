@@ -1,6 +1,6 @@
 # BOLIN Electric Motor — página de captação + catálogo
 
-Página única de atacado (`bolin-lead-page.html`). A seção **Linha BOLIN** é um
+Página única de atacado (`index.html`). A seção **Linha BOLIN** é um
 catálogo de verdade: a administradora entra com e-mail e senha e cria, edita,
 reordena, esconde e apaga modelos — cada um com **várias fotos**, tarja, texto
 de venda e ficha técnica própria. O que ela salva vai para o banco e aparece na
@@ -10,7 +10,7 @@ hora para quem abrir o site.
 
 | Arquivo | O que é |
 |---|---|
-| `bolin-lead-page.html` | A página inteira (visual, catálogo, formulário e área de edição) |
+| `index.html` | A página inteira (visual, catálogo, formulário e área de edição) |
 | `supabase-bolin.sql` | Estrutura do banco — roda uma vez no Supabase |
 | `Logo (2).jpeg` | Logo da marca |
 
@@ -53,7 +53,7 @@ lugares e os dois têm que bater**:
 | Onde | O quê |
 |---|---|
 | `supabase-bolin.sql` | linha marcada `<<< TROQUE AQUI`, dentro de `eh_dono_bolin()` |
-| `bolin-lead-page.html` | `var USUARIO_FIXO` |
+| `index.html` | `var USUARIO_FIXO` |
 
 Hoje os dois estão em `bolinmotoseletricas@gmail.com`. Se mudar, mude nos dois —
 senão o cadeado para de abrir.
