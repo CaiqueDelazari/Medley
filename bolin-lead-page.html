@@ -1,0 +1,1977 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BOLIN Electric Motor — Fábrica de Scooters Elétricas · Atacado</title>
+
+<style>
+  /* ================= TOKENS =================
+     Paleta tirada da logo: laranja BOLIN sobre neutros quentes.
+     Nenhum cinza frio na página. */
+  :root {
+    --paper:      #FFFFFF;
+    --ground:     #FFF9F5;
+    --ground-2:   #FFF2E9;
+    --tint:       #FFE9DA;
+    --tint-soft:  #FFF4EC;
+
+    --ink:        #1B1512;
+    --ink-2:      #4A413B;
+    --muted:      #8A7C72;
+
+    --line:       #F2E3D8;
+    --line-2:     #E8D5C6;
+
+    --accent:     #EE7315;   /* laranja da logo */
+    --accent-deep:#C95A08;
+    --accent-ink: #FFFFFF;
+
+    --shadow-sm: 0 1px 2px rgba(90,45,15,.05), 0 6px 16px -12px rgba(90,45,15,.35);
+    --shadow:    0 2px 4px rgba(90,45,15,.04), 0 24px 48px -32px rgba(90,45,15,.45);
+    --shadow-lg: 0 2px 6px rgba(90,45,15,.05), 0 44px 80px -46px rgba(120,55,15,.55);
+
+    --sans: "Segoe UI Variable Display", "Segoe UI", -apple-system, BlinkMacSystemFont,
+            Roboto, "Helvetica Neue", Arial, sans-serif;
+
+    --r-sm: 10px;
+    --r:    16px;
+    --r-lg: 24px;
+    --pill: 999px;
+
+    --wrap: 1140px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3 {
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -.032em;
+    line-height: 1.04;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  p { margin: 0; }
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+
+  :where(a, button, input, select, textarea):focus-visible {
+    outline: 2.5px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: var(--r-sm);
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent-deep);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--accent);
+  }
+
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ================= BOTÕES ================= */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 15px 26px;
+    border: 1.5px solid transparent;
+    border-radius: var(--pill);
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: inherit;
+    font-size: 15.5px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 10px 22px -12px rgba(238,115,21,.85);
+    transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .btn:hover {
+    background: var(--accent-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px -14px rgba(238,115,21,.9);
+  }
+  .btn--ghost {
+    background: var(--paper);
+    color: var(--ink);
+    border-color: var(--line-2);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn--ghost:hover { background: var(--paper); border-color: var(--accent); color: var(--accent-deep); }
+  .btn--sm { padding: 11px 20px; font-size: 14.5px; }
+
+  /* ================= TOPO ================= */
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: rgba(255, 252, 250, .84);
+    backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top-in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding-block: 12px;
+  }
+
+  /* A logo é um quadrado com muita margem branca — recortamos a faixa
+     central para que a marca ocupe a altura toda do cabeçalho. */
+  .logo {
+    width: 148px;
+    height: 46px;
+    object-fit: cover;
+    object-position: center 48%;
+    flex: none;
+  }
+  .logo--sm { width: 124px; height: 38px; }
+
+  .top-actions { display: flex; align-items: center; gap: 14px; }
+  .chip {
+    padding: 7px 14px;
+    border-radius: var(--pill);
+    background: var(--ground-2);
+    color: var(--accent-deep);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 820px) { .chip { display: none; } }
+
+  /* ================= HERO ================= */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--paper) 0%, var(--ground) 48%, var(--ground-2) 100%);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -32%;
+    right: -14%;
+    width: 780px;
+    height: 780px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%,
+      rgba(238,115,21,.30) 0%,
+      rgba(238,115,21,.14) 42%,
+      rgba(238,115,21,0) 70%);
+    pointer-events: none;
+  }
+  .hero-in {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1.12fr .88fr;
+    gap: 60px;
+    align-items: center;
+    padding-block: clamp(56px, 8vw, 100px);
+  }
+  @media (max-width: 940px) { .hero-in { grid-template-columns: 1fr; gap: 44px; } }
+
+  .hero h1 {
+    font-size: clamp(38px, 6.2vw, 70px);
+    margin-block: 20px 22px;
+  }
+  .hero h1 i { font-style: normal; color: var(--accent); }
+  .hero-lead {
+    color: var(--ink-2);
+    font-size: clamp(17px, 1.8vw, 19.5px);
+    max-width: 52ch;
+  }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+  .kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+    margin-top: 44px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line-2);
+  }
+  .kpi b {
+    display: block;
+    font-size: clamp(24px, 3.2vw, 32px);
+    font-weight: 800;
+    letter-spacing: -.035em;
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi span {
+    display: block;
+    margin-top: 2px;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: var(--muted);
+  }
+
+  /* cartão de condições comerciais */
+  .plate {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  .plate-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 20px 24px;
+    background: linear-gradient(180deg, var(--tint-soft), var(--paper));
+    border-bottom: 1px solid var(--line);
+  }
+  .plate-head b { font-size: 16px; font-weight: 800; letter-spacing: -.02em; }
+  .live {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-size: 12px; font-weight: 700; color: var(--accent-deep);
+  }
+  .live::before {
+    content: "";
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px rgba(238,115,21,.16);
+  }
+  .plate-rows { margin: 0; padding: 6px 24px 14px; }
+  .prow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .prow:last-child { border-bottom: 0; }
+  .prow dt { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .prow dd { margin: 0; font-size: 15px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+  .prow dd.hot { color: var(--accent-deep); }
+
+  /* ================= SEÇÕES ================= */
+  section { padding-block: clamp(60px, 7.5vw, 100px); }
+  .sec--paper { background: var(--paper); }
+  .sec--tint  { background: var(--ground-2); }
+
+  .sec-head { max-width: 62ch; margin-bottom: 44px; }
+  .sec-head h2 { font-size: clamp(29px, 4.1vw, 45px); margin-block: 16px 16px; }
+  .sec-head p { color: var(--muted); font-size: 17.5px; }
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  @media (max-width: 940px) { .grid-3 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 30px 28px 32px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .card .glyph {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: var(--tint);
+    color: var(--accent-deep);
+    display: grid; place-items: center;
+    margin-bottom: 6px;
+  }
+  .card h3 { font-size: 20.5px; }
+  .card p { color: var(--muted); font-size: 16px; }
+
+  /* ---- catálogo ---- */
+  .model {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .model:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .model-fig {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    background: radial-gradient(120% 100% at 50% 8%, #FFFFFF 0%, var(--tint-soft) 46%, var(--tint) 100%);
+    display: grid;
+    place-items: center;
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .model-fig img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  /* placeholder que aparece só enquanto a foto não estiver na pasta */
+  .model-fig .ph {
+    position: absolute;
+    inset: auto 0 44px;
+    margin-inline: auto;
+    width: max-content;
+    padding: 9px 16px;
+    border-radius: var(--pill);
+    background: rgba(255,255,255,.8);
+    color: var(--muted);
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: .04em;
+  }
+  .model-fig img:not(.missing) + .ph { display: none; }
+  .model-fig .badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    padding: 6px 13px;
+    border-radius: var(--pill);
+    background: var(--paper);
+    color: var(--accent-deep);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    box-shadow: var(--shadow-sm);
+    z-index: 1;
+  }
+  .model-body { padding: 24px 26px 28px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  .model-body h3 { font-size: 22px; }
+  .model-body .pitch { color: var(--muted); font-size: 15.5px; }
+  .specs { width: 100%; border-collapse: collapse; margin-top: auto; }
+  .specs th, .specs td { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .specs th { text-align: left; font-weight: 500; font-size: 15px; color: var(--muted); }
+  .specs td { text-align: right; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+  .specs tr:last-child th, .specs tr:last-child td { border-bottom: 0; }
+
+  /* ---- catálogo: controles do modo edição ---- */
+  /* tarja vazia some do site, mas continua clicável para a dona escrever */
+  .model-fig .badge:empty { display: none; }
+  body.admin .model-fig .badge:empty {
+    display: block;
+    min-width: 84px;
+    min-height: 1.1em;
+  }
+  .specs .spec-del { width: 34px; text-align: right; padding-left: 8px; }
+  .specs .spec-del button {
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 17px;
+    line-height: 1;
+    padding: 2px 4px;
+    cursor: pointer;
+    border-radius: 6px;
+  }
+  .specs .spec-del button:hover { color: var(--accent-deep); background: var(--tint-soft); }
+  .model-acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .model-acts button {
+    padding: 8px 13px;
+    border: 1.5px solid var(--line-2);
+    border-radius: var(--pill);
+    background: var(--paper);
+    color: var(--ink-2);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .model-acts button:hover { border-color: var(--accent); color: var(--accent-deep); }
+  .model-acts .mv { flex: 0 0 auto; padding: 8px 11px; }
+  .model-acts .del { margin-left: auto; }
+  .model-acts .del:hover { border-color: var(--accent-deep); }
+  .novo-modelo { display: grid; place-items: center; margin-top: 26px; }
+  /* modelo escondido dos visitantes — só a dona enxerga, apagado */
+  body.admin .model[data-oculto] { opacity: .5; }
+  .vazio-aviso {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--muted);
+    font-size: 15.5px;
+    padding: 30px 0;
+  }
+
+  /* ---- etapas ---- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+  @media (max-width: 940px) { .steps { grid-template-columns: 1fr 1fr; gap: 32px; } }
+  @media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
+  .step { display: flex; flex-direction: column; gap: 10px; }
+  .step .n {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    display: grid; place-items: center;
+    font-size: 15px; font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 10px 20px -12px rgba(238,115,21,.9);
+    margin-bottom: 6px;
+  }
+  .step h3 { font-size: 18.5px; }
+  .step p { color: var(--muted); font-size: 15.5px; }
+
+  /* ---- faixa do slogan ---- */
+  .slogan {
+    background: linear-gradient(135deg, var(--accent-deep), var(--accent) 62%, #FF9243);
+    color: #FFFFFF;
+    text-align: center;
+    padding-block: clamp(52px, 6.5vw, 84px);
+  }
+  .slogan h2 {
+    color: #FFFFFF;
+    font-size: clamp(34px, 6vw, 62px);
+    letter-spacing: -.04em;
+  }
+  .slogan p {
+    margin-top: 16px;
+    font-size: clamp(16.5px, 2vw, 19px);
+    color: rgba(255,255,255,.9);
+    max-width: 54ch;
+    margin-inline: auto;
+  }
+  .slogan .btn {
+    margin-top: 30px;
+    background: #FFFFFF;
+    color: var(--accent-deep);
+    box-shadow: 0 18px 34px -18px rgba(80,30,0,.6);
+  }
+  .slogan .btn:hover { background: var(--ink); color: #FFFFFF; }
+
+  /* ================= FORMULÁRIO ================= */
+  .lead { background: linear-gradient(180deg, var(--ground-2), var(--paper) 70%); }
+  .lead-in {
+    display: grid;
+    grid-template-columns: .92fr 1.08fr;
+    gap: 54px;
+    align-items: start;
+  }
+  @media (max-width: 940px) { .lead-in { grid-template-columns: 1fr; gap: 36px; } }
+
+  .lead-copy h2 { font-size: clamp(29px, 4.1vw, 44px); margin-block: 16px 16px; }
+  .lead-copy > p { color: var(--muted); max-width: 44ch; font-size: 17.5px; }
+  .lead-points { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 14px; }
+  .lead-points li {
+    display: flex; gap: 12px; align-items: flex-start;
+    font-size: 16px; color: var(--ink-2);
+  }
+  .lead-points li::before {
+    content: "";
+    flex: none;
+    width: 22px; height: 22px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: var(--tint) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C95A08' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'><path d='M4 12.5l5.2 5.2L20 7'/></svg>") center / 13px no-repeat;
+  }
+  .consultora {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow-sm);
+  }
+  .consultora .av {
+    width: 44px; height: 44px; flex: none;
+    border-radius: 50%;
+    background: var(--tint);
+    color: var(--accent-deep);
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 17px;
+  }
+  .consultora b { display: block; font-size: 15.5px; letter-spacing: -.02em; }
+  .consultora span { display: block; font-size: 13.5px; color: var(--muted); }
+  .consultora a { color: var(--accent-deep); font-weight: 700; text-decoration: none; }
+  .consultora a:hover { text-decoration: underline; }
+
+  form.card-form {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 32px 30px 34px;
+    display: grid;
+    gap: 20px;
+  }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 620px) { .fields { grid-template-columns: 1fr; } }
+  .field { display: grid; gap: 8px; }
+  .field.full { grid-column: 1 / -1; }
+  .field label { font-size: 13.5px; font-weight: 700; color: var(--ink-2); letter-spacing: -.01em; }
+  .field input, .field select, .field textarea {
+    font-family: inherit;
+    font-size: 16px;
+    color: var(--ink);
+    background: var(--ground);
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-sm);
+    padding: 13px 14px;
+    width: 100%;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .field textarea { resize: vertical; min-height: 92px; }
+  .field input::placeholder, .field textarea::placeholder { color: #B6A79B; }
+  .field input:focus, .field select:focus, .field textarea:focus {
+    border-color: var(--accent);
+    background: var(--paper);
+    outline-offset: 1px;
+  }
+  .form-note { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+
+  /* ================= RODAPÉ ================= */
+  footer { background: var(--ink); color: #F6EFE9; }
+  .foot-in {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-block: 52px 40px;
+  }
+  .foot-brand { display: grid; gap: 12px; }
+  .foot-brand .plate-logo {
+    background: #FFFFFF;
+    border-radius: var(--r-sm);
+    padding: 8px 12px;
+    width: max-content;
+  }
+  .foot-brand span { font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #B7A79B; }
+  .foot-contact { display: grid; gap: 10px; font-size: 15.5px; }
+  .foot-contact a { color: #FFB27A; text-decoration: none; font-weight: 600; }
+  .foot-contact a:hover { color: #FFFFFF; }
+  .foot-contact .hours { color: #B7A79B; }
+  .foot-legal { font-size: 13.5px; color: #A5958A; max-width: 38ch; line-height: 1.65; }
+  .foot-bar {
+    border-top: 1px solid rgba(255,255,255,.10);
+    padding-block: 18px 24px;
+    font-size: 13px;
+    color: #8E7F75;
+  }
+
+  /* barra fixa mobile */
+  .sticky-cta {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 50;
+    display: none;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(255, 252, 250, .92);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--line);
+  }
+  .sticky-cta .btn { width: 100%; }
+  @media (max-width: 760px) { .sticky-cta { display: block; } body { padding-bottom: 84px; } }
+
+  /* ================= ÁREA DO ADMINISTRADOR =================
+     Cadeado no topo → senha → modo edição das fotos dos produtos. */
+  .lock {
+    width: 40px; height: 40px;
+    flex: none;
+    display: grid; place-items: center;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1.5px solid var(--line-2);
+    color: var(--muted);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: color .18s ease, border-color .18s ease, background .18s ease;
+  }
+  .lock:hover { color: var(--accent-deep); border-color: var(--accent); }
+  .lock svg { pointer-events: none; }
+  .lock .open-icon { display: none; }
+  body.admin .lock { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+  body.admin .lock .shut-icon { display: none; }
+  body.admin .lock .open-icon { display: block; }
+
+  /* modal de senha */
+  .modal {
+    position: fixed; inset: 0; z-index: 90;
+    display: none;
+    place-items: center;
+    padding: 20px;
+    background: rgba(45, 22, 6, .48);
+    backdrop-filter: blur(5px);
+  }
+  .modal.open { display: grid; }
+  .modal-card {
+    width: 100%; max-width: 390px;
+    background: var(--paper);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 30px 28px 28px;
+    display: grid; gap: 16px;
+  }
+  .modal-card h3 { font-size: 21px; }
+  .modal-card p { color: var(--muted); font-size: 14.5px; }
+  .modal-card .row { display: flex; gap: 10px; }
+  .modal-card .row .btn { flex: 1; }
+  .modal-err { font-size: 13.5px; color: var(--accent-deep); font-weight: 600; min-height: 1.2em; }
+
+  /* botões sobre a foto do produto */
+  .fig-edit {
+    position: absolute;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 3;
+    display: none;
+    gap: 8px;
+  }
+  body.admin .fig-edit { display: flex; }
+  .fig-edit button {
+    flex: 1;
+    padding: 10px 12px;
+    border: 0;
+    border-radius: var(--pill);
+    background: var(--ink);
+    color: #FFFFFF;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .fig-edit button:hover { background: var(--accent-deep); }
+  .fig-edit button.ghost {
+    flex: 0 0 auto;
+    background: rgba(255,255,255,.92);
+    color: var(--ink-2);
+  }
+  .fig-edit button.ghost:hover { background: #FFFFFF; color: var(--accent-deep); }
+  body.admin .model:hover { transform: none; }
+
+  /* textos editáveis */
+  [contenteditable="true"] {
+    outline: 1.5px dashed rgba(238,115,21,.45);
+    outline-offset: 4px;
+    border-radius: 4px;
+    cursor: text;
+    transition: background .15s ease, outline-color .15s ease;
+  }
+  [contenteditable="true"]:hover { background: rgba(238,115,21,.07); outline-color: var(--accent); }
+  [contenteditable="true"]:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    background: rgba(238,115,21,.06);
+  }
+  footer [contenteditable="true"]:hover,
+  .slogan [contenteditable="true"]:hover { background: rgba(255,255,255,.12); }
+
+  /* painel de dados de contato */
+  .painel {
+    position: fixed;
+    right: 20px; bottom: 96px;
+    z-index: 75;
+    width: min(340px, calc(100vw - 40px));
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 24px 22px;
+    display: none;
+    gap: 14px;
+  }
+  .painel.open { display: grid; }
+  .painel h4 { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: -.02em; }
+  .painel p { color: var(--muted); font-size: 13.5px; }
+
+  /* barra inferior do modo edição */
+  .adminbar {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 70;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 18px;
+    padding: 13px 20px calc(13px + env(safe-area-inset-bottom));
+    background: var(--ink);
+    color: #F6EFE9;
+    box-shadow: 0 -18px 40px -30px rgba(0,0,0,.9);
+  }
+  .adminbar .ab-tag {
+    padding: 5px 12px;
+    border-radius: var(--pill);
+    background: var(--accent);
+    color: #FFFFFF;
+    font-size: 11.5px; font-weight: 800;
+    letter-spacing: .1em; text-transform: uppercase;
+  }
+  .adminbar .ab-msg { flex: 1; min-width: 200px; font-size: 14px; color: #CBB9AC; }
+  .adminbar .ab-acts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .ab-btn {
+    padding: 10px 18px;
+    border: 1.5px solid transparent;
+    border-radius: var(--pill);
+    background: var(--accent);
+    color: #FFFFFF;
+    font-family: inherit; font-size: 14px; font-weight: 700;
+    cursor: pointer;
+  }
+  .ab-btn:hover { background: var(--accent-deep); }
+  .ab-btn--ghost { background: transparent; border-color: rgba(255,255,255,.25); color: #F6EFE9; }
+  .ab-btn--ghost:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.45); }
+  body.admin { padding-bottom: 88px; }
+  body.admin .sticky-cta { display: none; }
+
+  /* revelação */
+  .rv { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .rv.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .rv { opacity: 1; transform: none; transition: none; }
+    .btn, .card, .model { transition: none; }
+    html { scroll-behavior: auto; }
+  }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body data-whats="5511942964321">
+
+<header class="top">
+  <div class="wrap top-in">
+    <a href="#topo" aria-label="BOLIN Electric Motor">
+      <img class="logo" src="Logo%20(2).jpeg" alt="BOLIN Electric Motor">
+    </a>
+    <div class="top-actions">
+      <span class="chip">Venda somente para revenda</span>
+      <a class="btn btn--sm" href="#orcamento">Receber tabela</a>
+      <button class="lock" type="button" id="btn-lock" title="Área do administrador — editar fotos" aria-label="Área do administrador">
+        <svg class="shut-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="10.5" width="16" height="10.5" rx="2.4"/>
+          <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+        </svg>
+        <svg class="open-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="10.5" width="16" height="10.5" rx="2.4"/>
+          <path d="M8 10.5V7a4 4 0 0 1 7.7-1.5"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-in">
+      <div>
+        <p class="eyebrow">Fabricante · Scooters elétricas · Atacado</p>
+        <h1>Somos a fábrica. <i>Sua margem começa aqui.</i></h1>
+        <p class="hero-lead">
+          A BOLIN produz scooters elétricas e vende direto para lojistas, revendedores e
+          distribuidores. Sem importador no meio, sem representante encarecendo a peça:
+          você compra na origem, com tabela de atacado por faixa de quantidade.
+        </p>
+        <div class="hero-cta">
+          <a class="btn" href="#orcamento">Receber tabela de atacado</a>
+          <a class="btn btn--ghost" href="#catalogo">Ver a linha de modelos</a>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi"><b class="num">3</b><span>Modelos em linha</span></div>
+          <div class="kpi"><b class="num">4.000 W</b><span>Potência de topo</span></div>
+          <div class="kpi"><b class="num">5 h</b><span>Recarga completa</span></div>
+        </div>
+      </div>
+
+      <aside class="plate rv" aria-label="Condições comerciais">
+        <div class="plate-head">
+          <b>Condições de atacado</b>
+          <span class="live">Atendendo agora</span>
+        </div>
+        <dl class="plate-rows">
+          <div class="prow"><dt>Quem atendemos</dt><dd>Lojista · Revendedor · Distribuidor</dd></div>
+          <div class="prow"><dt>Origem</dt><dd class="hot">Fabricação própria</dd></div>
+          <div class="prow"><dt>Documento</dt><dd>CNPJ ativo</dd></div>
+          <div class="prow"><dt>Pedido mínimo</dt><dd>Sob consulta</dd></div>
+          <div class="prow"><dt>Pagamento</dt><dd>PIX · Boleto · Cartão</dd></div>
+          <div class="prow"><dt>Envio</dt><dd>Todo o Brasil</dd></div>
+          <div class="prow"><dt>Resposta</dt><dd>Até 24 h úteis</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+
+  <!-- POR QUE REVENDER -->
+  <section class="sec--paper">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow">Por que revender BOLIN</p>
+        <h2>Preço de fábrica, produto que gira e reposição garantida.</h2>
+        <p>Trabalhamos exclusivamente com quem revende. É o que mantém o preço protegido e a margem do lojista de pé.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card rv">
+          <span class="glyph" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/>
+            </svg>
+          </span>
+          <h3>Fabricação própria</h3>
+          <p>O produto sai da nossa linha direto para o seu estoque. Você negocia com quem produz, não com quem revende de terceiro.</p>
+        </article>
+
+        <article class="card rv">
+          <span class="glyph" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19V5M4 19h16M8 15l4-5 3.5 3.5L20 7"/>
+            </svg>
+          </span>
+          <h3>Tabela por volume</h3>
+          <p>Quanto maior o pedido, melhor a faixa de preço. Preço sugerido de revenda orientado para você não brigar por margem.</p>
+        </article>
+
+        <article class="card rv">
+          <span class="glyph" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3.2"/>
+              <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>
+            </svg>
+          </span>
+          <h3>Peça de reposição</h3>
+          <p>Bateria, controlador, carregador e acabamento disponíveis no mesmo canal. Sua assistência não trava depois da venda.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO -->
+  <section class="sec--tint" id="catalogo">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow">Linha BOLIN</p>
+        <h2>Três máquinas, três faixas de preço na sua vitrine.</h2>
+        <p>Ficha técnica resumida. O preço por faixa de quantidade vai no WhatsApp, junto com o catálogo completo.</p>
+      </div>
+
+      <!-- Os três modelos abaixo são a reserva: aparecem só enquanto o banco
+           estiver vazio ou fora do ar. Assim que houver modelo cadastrado,
+           a lista inteira passa a vir do banco. -->
+      <div class="grid-3" id="lista-modelos">
+        <article class="model rv">
+          <div class="model-fig">
+            <span class="badge">Entrada</span>
+            <img src="m4.jpeg" alt="Scooter elétrica BOLIN M4" loading="lazy">
+            <span class="ph">Foto do produto — M4</span>
+          </div>
+          <div class="model-body">
+            <h3>BOLIN M4</h3>
+            <p class="pitch">Com banco e suspensão. O modelo de giro rápido: fecha venda no primeiro contato e puxa o cliente para a loja.</p>
+            <table class="specs">
+              <tbody>
+                <tr><th scope="row">Motor</th><td>500 W</td></tr>
+                <tr><th scope="row">Bateria</th><td>48 V · 10 A</td></tr>
+                <tr><th scope="row">Velocidade</th><td>32 km/h</td></tr>
+                <tr><th scope="row">Carregador</th><td>2 A</td></tr>
+                <tr><th scope="row">Recarga</th><td>5 horas</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="model rv">
+          <div class="model-fig">
+            <span class="badge">Mais vendida</span>
+            <img src="mc027-2000w.jpeg" alt="Scooter elétrica BOLIN MC027 2000 W" loading="lazy">
+            <span class="ph">Foto do produto — MC027 2000 W</span>
+          </div>
+          <div class="model-body">
+            <h3>BOLIN MC027 · 2000 W</h3>
+            <p class="pitch">O ponto de equilíbrio da linha. Potência de sobra para o uso urbano e ticket que a maioria do seu público fecha.</p>
+            <table class="specs">
+              <tbody>
+                <tr><th scope="row">Motor</th><td>2.000 W</td></tr>
+                <tr><th scope="row">Bateria</th><td>48 V · 15,6 A</td></tr>
+                <tr><th scope="row">Carregador</th><td>2 A</td></tr>
+                <tr><th scope="row">Recarga</th><td>5 horas</td></tr>
+                <tr><th scope="row">Pneu</th><td>Off-road</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="model rv">
+          <div class="model-fig">
+            <span class="badge">Topo de linha</span>
+            <img src="mc027-4000w.jpeg" alt="Scooter elétrica BOLIN MC027 4000 W" loading="lazy">
+            <span class="ph">Foto do produto — MC027 4000 W</span>
+          </div>
+          <div class="model-body">
+            <h3>BOLIN MC027 · 4000 W</h3>
+            <p class="pitch">A versão de maior potência. É o produto de vitrine que sustenta o ticket alto e valoriza toda a linha na sua loja.</p>
+            <table class="specs">
+              <tbody>
+                <tr><th scope="row">Motor</th><td>4.000 W</td></tr>
+                <tr><th scope="row">Bateria</th><td>48 V</td></tr>
+                <tr><th scope="row">Carregador</th><td>2 A</td></tr>
+                <tr><th scope="row">Recarga</th><td>5 horas</td></tr>
+                <tr><th scope="row">Pneu</th><td>Off-road</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section class="sec--paper">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <p class="eyebrow">Do primeiro contato à entrega</p>
+        <h2>Como funciona o pedido no atacado</h2>
+      </div>
+
+      <div class="steps rv">
+        <div class="step">
+          <span class="n num">1</span>
+          <h3>Você se identifica</h3>
+          <p>Empresa, cidade e volume estimado no formulário. Leva menos de um minuto.</p>
+        </div>
+        <div class="step">
+          <span class="n num">2</span>
+          <h3>Recebe catálogo e tabela</h3>
+          <p>A consultora envia o catálogo completo e o preço por faixa de quantidade no WhatsApp.</p>
+        </div>
+        <div class="step">
+          <span class="n num">3</span>
+          <h3>Fecha o pedido</h3>
+          <p>Vocês definem modelos, cores, frete e forma de pagamento — direto com a fábrica.</p>
+        </div>
+        <div class="step">
+          <span class="n num">4</span>
+          <h3>Produção e envio</h3>
+          <p>Separação, embalagem e despacho com código de rastreio para todo o Brasil.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLOGAN -->
+  <section class="slogan">
+    <div class="wrap rv">
+      <h2>Vem ser Bolin</h2>
+      <p>Coloque a marca na sua vitrine e venda com margem de fabricante. Estamos abrindo revenda em todo o Brasil.</p>
+      <a class="btn" href="#orcamento">Quero ser revendedor BOLIN</a>
+    </div>
+  </section>
+
+  <!-- FORMULÁRIO -->
+  <section class="lead" id="orcamento">
+    <div class="wrap lead-in">
+      <div class="lead-copy rv">
+        <p class="eyebrow">Solicitar tabela</p>
+        <h2>Quer o preço de atacado? Diga quem você é.</h2>
+        <p>
+          Ao enviar, o formulário abre o WhatsApp da consultora comercial com a sua mensagem
+          já montada. Você só aperta enviar.
+        </p>
+        <ul class="lead-points">
+          <li>Atendimento exclusivo para lojista, revendedor e distribuidor</li>
+          <li>Preço por faixa de quantidade, direto da fábrica</li>
+          <li>Resposta em até 24 horas úteis, sem compromisso de compra</li>
+        </ul>
+
+        <div class="consultora">
+          <span class="av" aria-hidden="true">M</span>
+          <span>
+            <b>Medley — Consultora Comercial</b>
+            <span><a data-wa href="https://wa.me/5511942964321" target="_blank" rel="noopener"><span data-fone>(11) 94296-4321</span></a><span class="horario"> · Segunda a sexta, 8h às 18h</span></span>
+          </span>
+        </div>
+      </div>
+
+      <form class="card-form rv" id="form-lead" novalidate>
+        <div class="fields">
+          <div class="field">
+            <label for="nome">Seu nome</label>
+            <input id="nome" name="nome" type="text" placeholder="Ex.: Carlos Andrade" required>
+          </div>
+          <div class="field">
+            <label for="empresa">Empresa / Loja</label>
+            <input id="empresa" name="empresa" type="text" placeholder="Ex.: Moto Center LTDA" required>
+          </div>
+          <div class="field">
+            <label for="cidade">Cidade e UF</label>
+            <input id="cidade" name="cidade" type="text" placeholder="Ex.: Campinas · SP" required>
+          </div>
+          <div class="field">
+            <label for="telefone">WhatsApp</label>
+            <input id="telefone" name="telefone" type="tel" inputmode="tel" placeholder="(11) 90000-0000" required>
+          </div>
+          <div class="field">
+            <label for="perfil">Perfil</label>
+            <select id="perfil" name="perfil">
+              <option>Loja física</option>
+              <option>Loja online</option>
+              <option>Revendedor</option>
+              <option>Distribuidor</option>
+              <option>Ainda vou abrir</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="volume">Volume estimado</label>
+            <select id="volume" name="volume">
+              <option>Até 10 unidades</option>
+              <option>11 a 30 unidades</option>
+              <option>31 a 100 unidades</option>
+              <option>Acima de 100 unidades</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="obs">Modelo de interesse ou observação</label>
+            <textarea id="obs" name="obs" placeholder="Ex.: interesse no MC027 2000 W para revenda, entrega em Campinas."></textarea>
+          </div>
+        </div>
+
+        <button class="btn" type="submit">Enviar e abrir o WhatsApp</button>
+        <p class="form-note" id="form-msg">
+          Seus dados vão direto para a consultora comercial da BOLIN. Atendimento apenas para revenda — não vendemos unidade avulsa para consumidor final.
+        </p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <span class="plate-logo"><img class="logo logo--sm" src="Logo%20(2).jpeg" alt="BOLIN Electric Motor"></span>
+      <span>Fábrica &amp; Atacado</span>
+    </div>
+
+    <div class="foot-contact">
+      <a data-wa href="https://wa.me/5511942964321" target="_blank" rel="noopener">WhatsApp · <span data-fone>(11) 94296-4321</span></a>
+      <span class="hours">Medley — Consultora Comercial</span>
+      <span class="hours">Segunda a sexta · 8h às 18h</span>
+    </div>
+
+    <p class="foot-legal">
+      BOLIN Electric Motor — fabricante de scooters elétricas.
+      Vendas exclusivas para pessoa jurídica com CNPJ ativo.
+    </p>
+  </div>
+  <div class="wrap foot-bar">© 2026 BOLIN Electric Motor. Todos os direitos reservados.</div>
+</footer>
+
+<div class="sticky-cta">
+  <a class="btn" href="#orcamento">Quero a tabela de atacado</a>
+</div>
+
+<!-- Modal de senha da área do administrador -->
+<div class="modal" id="modal-lock" role="dialog" aria-modal="true" aria-labelledby="modal-tit">
+  <div class="modal-card">
+    <h3 id="modal-tit">Área do administrador</h3>
+    <p>Digite a senha para editar as fotos e os textos da página.</p>
+    <div class="field">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password" placeholder="••••••••">
+    </div>
+    <p class="modal-err" id="senha-err"></p>
+    <div class="row">
+      <button class="btn" type="button" id="btn-entrar">Entrar</button>
+      <button class="btn btn--ghost" type="button" id="btn-cancelar">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    /* Se a foto do produto ainda não estiver na pasta, mostramos o placeholder. */
+    document.querySelectorAll(".model-fig img").forEach(function (img) {
+      function marcar() {
+        if (img.getAttribute("src") && img.getAttribute("src").indexOf("data:") === 0) { return; }
+        img.classList.add("missing");
+        img.style.display = "none";
+      }
+      if (img.complete && img.naturalWidth === 0) { marcar(); }
+      img.addEventListener("error", marcar);
+    });
+
+    var form = document.getElementById("form-lead");
+    var note = document.getElementById("form-msg");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var f = {
+        nome: form.nome.value.trim(),
+        empresa: form.empresa.value.trim(),
+        cidade: form.cidade.value.trim(),
+        telefone: form.telefone.value.trim(),
+        perfil: form.perfil.value,
+        volume: form.volume.value,
+        obs: form.obs.value.trim()
+      };
+
+      var faltando = ["nome", "empresa", "cidade", "telefone"].filter(function (k) { return !f[k]; });
+      if (faltando.length) {
+        note.textContent = "Preencha nome, empresa, cidade e WhatsApp para continuar.";
+        note.style.color = "var(--accent-deep)";
+        form[faltando[0]].focus();
+        return;
+      }
+
+      var texto =
+        "Olá, BOLIN! Sou revenda e quero a tabela de atacado.\n\n" +
+        "Nome: " + f.nome + "\n" +
+        "Empresa: " + f.empresa + "\n" +
+        "Cidade: " + f.cidade + "\n" +
+        "WhatsApp: " + f.telefone + "\n" +
+        "Perfil: " + f.perfil + "\n" +
+        "Volume estimado: " + f.volume +
+        (f.obs ? "\nObservação: " + f.obs : "");
+
+      /* o número fica no atributo data-whats do body — a área do
+         administrador altera ele sem precisar mexer no código. */
+      var whats = (document.body.getAttribute("data-whats") || "").replace(/\D/g, "");
+
+      window.open("https://wa.me/" + whats + "?text=" + encodeURIComponent(texto), "_blank", "noopener");
+
+      note.textContent = "Pronto — o WhatsApp abriu com a sua mensagem montada. É só apertar enviar.";
+      note.style.color = "var(--accent-deep)";
+    });
+
+    var alvos = document.querySelectorAll(".rv");
+    if (!("IntersectionObserver" in window) ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      alvos.forEach(function (el) { el.classList.add("in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    alvos.forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =====================================================================
+   ÁREA DO ADMINISTRADOR — fotos e textos guardados no banco (Supabase).
+
+   Como funciona: a administradora entra com a senha, troca a foto
+   ou reescreve um texto, e aquilo é gravado no banco na hora. Quem abrir
+   a página em qualquer lugar já vê a versão nova — não existe mais
+   "baixar o HTML e subir de novo".
+
+   O banco é o MESMO projeto Supabase da Agropecuária JG; as tabelas da
+   BOLIN começam com "bolin_". A estrutura está em supabase-bolin.sql.
+
+   A chave abaixo é pública de propósito. Quem protege os dados são as
+   regras (RLS) do arquivo SQL: qualquer um lê, só o dono escreve.
+   ===================================================================== */
+(function () {
+  var SUPABASE_URL = "https://vvasybgcuxiufimnmfxa.supabase.co";
+  var SUPABASE_ANON_KEY = "sb_publishable_uvmoyalfvsMxd03EAgnRLw_2BLgNvPy";
+  var BALDE = "bolin";           /* pasta das fotos no Storage */
+  var LARGURA_MAX = 1100;
+
+  var sb = window.supabase
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+  /* Textos fixos da página que podem ser reescritos. Os modelos NÃO entram
+     aqui — eles vêm do banco e cada um salva no seu próprio registro.
+     Elementos dentro da janela de senha ou da interface de edição também
+     ficam de fora. */
+  var EDITAVEIS = [
+    ".chip", ".hero .eyebrow", ".hero h1", ".hero-lead", ".hero-cta .btn",
+    ".kpi b", ".kpi span",
+    ".plate-head b", ".live", ".prow dt", ".prow dd",
+    ".sec-head .eyebrow", ".sec-head h2", ".sec-head p",
+    ".card h3", ".card p",
+    ".step h3", ".step p",
+    ".slogan h2", ".slogan p", ".slogan .btn",
+    ".lead-copy .eyebrow", ".lead-copy h2", ".lead-copy > p", ".lead-points li",
+    ".consultora b", ".consultora .horario",
+    ".field label", "form.card-form .btn", ".form-note",
+    ".foot-brand > span:not(.plate-logo)", ".foot-contact .hours",
+    ".foot-legal", ".foot-bar"
+  ].join(",");
+
+  var body = document.body;
+  var modal = document.getElementById("modal-lock");
+  /* A administradora entra só com a SENHA. O Supabase loga por e-mail, então
+     o e-mail fica fixo aqui no código e ela nem precisa saber dele. Deixar
+     o e-mail à mostra não abre brecha nenhuma: sem a senha certa o banco
+     recusa a gravação do mesmo jeito. */
+  var USUARIO_FIXO = "bolinmotoseletricas@gmail.com";
+
+  var campo = document.getElementById("senha");
+  var erro = document.getElementById("senha-err");
+  var grade = document.getElementById("lista-modelos");
+  var reservaHTML = grade.innerHTML;   /* os modelos que vieram no arquivo */
+  var MODELOS = [];
+  var barra = null;
+  var recado = null;
+  var botaoNovo = null;
+
+  /* ---------- foto ---------- */
+
+  function comprimir(arquivo, pronto) {
+    var leitor = new FileReader();
+    leitor.onerror = function () { pronto(null); };
+    leitor.onload = function () {
+      var im = new Image();
+      im.onerror = function () { pronto(null); };
+      im.onload = function () {
+        var l = im.naturalWidth, a = im.naturalHeight;
+        var maior = Math.max(l, a);
+        if (maior > LARGURA_MAX) {
+          var k = LARGURA_MAX / maior;
+          l = Math.round(l * k);
+          a = Math.round(a * k);
+        }
+        var tela = document.createElement("canvas");
+        tela.width = l; tela.height = a;
+        var ctx = tela.getContext("2d");
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, l, a);
+        ctx.drawImage(im, 0, 0, l, a);
+        tela.toBlob(function (blob) { pronto(blob); }, "image/jpeg", 0.82);
+      };
+      im.src = leitor.result;
+    };
+    leitor.readAsDataURL(arquivo);
+  }
+
+  /* =========== CATÁLOGO ===========
+     A seção "Linha BOLIN" é montada a partir da tabela bolin_modelos.
+     Os três modelos que vieram escritos no HTML são só a reserva: valem
+     enquanto o banco estiver vazio ou fora do ar. */
+
+  function elem(tag, classe, texto) {
+    var el = document.createElement(tag);
+    if (classe) { el.className = classe; }
+    if (texto != null) { el.textContent = texto; }
+    return el;
+  }
+
+  function linhaSpec(spec) {
+    var tr = document.createElement("tr");
+    var th = elem("th", "", (spec && spec.r) || "");
+    th.setAttribute("scope", "row");
+    tr.appendChild(th);
+    tr.appendChild(elem("td", "", (spec && spec.v) || ""));
+    return tr;
+  }
+
+  function montarCard(m) {
+    var card = elem("article", "model rv in");
+    card.dataset.id = m.id;
+    if (!m.ativo) { card.setAttribute("data-oculto", ""); }
+
+    var fig = elem("div", "model-fig");
+    fig.appendChild(elem("span", "badge", m.selo || ""));
+
+    var img = document.createElement("img");
+    img.alt = "Scooter elétrica BOLIN " + (m.nome || "");
+    img.loading = "lazy";
+    img.addEventListener("error", function () {
+      img.classList.add("missing");
+      img.style.display = "none";
+    });
+    if (m.foto) { img.src = m.foto; }
+    else { img.classList.add("missing"); img.style.display = "none"; }
+    fig.appendChild(img);
+    fig.appendChild(elem("span", "ph", "Sem foto ainda"));
+
+    var corpo = elem("div", "model-body");
+    corpo.appendChild(elem("h3", "", m.nome || ""));
+    corpo.appendChild(elem("p", "pitch", m.pitch || ""));
+
+    var tabela = elem("table", "specs");
+    var tbody = document.createElement("tbody");
+    (m.specs || []).forEach(function (spec) { tbody.appendChild(linhaSpec(spec)); });
+    tabela.appendChild(tbody);
+    corpo.appendChild(tabela);
+
+    card.appendChild(fig);
+    card.appendChild(corpo);
+    return card;
+  }
+
+  function renderModelos() {
+    var editando = body.classList.contains("admin");
+
+    /* fora do modo edição e sem nada no banco: fica a reserva do arquivo */
+    if (!MODELOS.length && !editando) {
+      grade.innerHTML = reservaHTML;
+      return;
+    }
+
+    grade.innerHTML = "";
+    MODELOS.forEach(function (m) {
+      /* modelo escondido só aparece para quem está editando — o banco já
+         esconde dos visitantes, isto é para a dona não ver escondido
+         enquanto navega fora do modo edição */
+      if (!m.ativo && !editando) { return; }
+      grade.appendChild(montarCard(m));
+    });
+
+    if (editando) {
+      [].slice.call(grade.children).forEach(ligarCard);
+      if (!MODELOS.length) {
+        var aviso = elem("p", "vazio-aviso",
+          "Nenhum modelo cadastrado ainda. Use “+ Novo modelo” aqui embaixo para começar.");
+        grade.appendChild(aviso);
+      }
+    }
+  }
+
+  /* ---------- catálogo no banco ---------- */
+
+  async function carregarModelos() {
+    var r = await sb.from("bolin_modelos")
+      .select("*")
+      .order("ordem", { ascending: true })
+      .order("criado_em", { ascending: true });
+    if (r.error) { return; }
+    MODELOS = r.data || [];
+    renderModelos();
+  }
+
+  /* grava um punhado de campos de um modelo e mantém a cópia local igual */
+  async function salvar(m, mudanca) {
+    var r = await sb.from("bolin_modelos").update(mudanca).eq("id", m.id);
+    if (r.error) { throw r.error; }
+    Object.keys(mudanca).forEach(function (k) { m[k] = mudanca[k]; });
+  }
+
+  async function novoModelo() {
+    var maior = MODELOS.reduce(function (n, m) { return Math.max(n, m.ordem || 0); }, 0);
+    var r = await sb.from("bolin_modelos").insert({
+      nome: "Novo modelo",
+      pitch: "Escreva aqui o texto de venda deste modelo.",
+      specs: [{ r: "Motor", v: "—" }, { r: "Bateria", v: "—" }, { r: "Recarga", v: "—" }],
+      ordem: maior + 1
+    }).select().single();
+    if (r.error) { throw r.error; }
+    MODELOS.push(r.data);
+    renderModelos();
+  }
+
+  async function apagarModelo(m) {
+    if (!window.confirm("Apagar “" + (m.nome || "este modelo") + "” do catálogo? Isto não tem volta.")) { return; }
+    var r = await sb.from("bolin_modelos").delete().eq("id", m.id);
+    if (r.error) { throw r.error; }
+    if (m.foto_caminho) { await sb.storage.from(BALDE).remove([m.foto_caminho]); }
+    MODELOS = MODELOS.filter(function (x) { return x.id !== m.id; });
+    renderModelos();
+  }
+
+  /* troca de lugar com o vizinho e regrava a ordem de todos, para não
+     depender de números antigos que possam ter ficado repetidos */
+  async function moverModelo(m, passo) {
+    var i = MODELOS.indexOf(m);
+    var j = i + passo;
+    if (i < 0 || j < 0 || j >= MODELOS.length) { return; }
+    MODELOS[i] = MODELOS[j];
+    MODELOS[j] = m;
+    await Promise.all(MODELOS.map(function (x, k) {
+      x.ordem = k + 1;
+      return sb.from("bolin_modelos").update({ ordem: k + 1 }).eq("id", x.id);
+    }));
+    renderModelos();
+  }
+
+  /* sobe o arquivo, aponta o modelo para ele e apaga a foto antiga */
+  async function trocarFotoModelo(m, blob) {
+    var antigo = m.foto_caminho || "";
+    var nome = m.id + "-" + Date.now() + ".jpg";
+
+    var envio = await sb.storage.from(BALDE).upload(nome, blob, {
+      cacheControl: "3600",
+      contentType: "image/jpeg",
+      upsert: false
+    });
+    if (envio.error) { throw envio.error; }
+
+    var url = sb.storage.from(BALDE).getPublicUrl(nome).data.publicUrl;
+    try {
+      await salvar(m, { foto: url, foto_caminho: nome });
+    } catch (e) {
+      await sb.storage.from(BALDE).remove([nome]);   /* não deixa arquivo órfão */
+      throw e;
+    }
+    if (antigo) { await sb.storage.from(BALDE).remove([antigo]); }
+    renderModelos();
+  }
+
+  async function removerFotoModelo(m) {
+    var antigo = m.foto_caminho || "";
+    await salvar(m, { foto: "", foto_caminho: "" });
+    if (antigo) { await sb.storage.from(BALDE).remove([antigo]); }
+    renderModelos();
+  }
+
+  /* =========== TEXTOS ===========
+     Cada elemento editável recebe uma chave a partir da sua posição na
+     página (ex.: "1.0.2.3"), então nada precisa de id no HTML. */
+
+  function caminho(el) {
+    var partes = [];
+    var no = el;
+    while (no && no !== body) {
+      var i = 0, ant = no;
+      while ((ant = ant.previousElementSibling)) { i++; }
+      partes.unshift(i);
+      no = no.parentElement;
+    }
+    return partes.join(".");
+  }
+
+  function porCaminho(chave) {
+    var no = body;
+    var partes = chave.split(".");
+    for (var i = 0; i < partes.length; i++) {
+      no = no.children[Number(partes[i])];
+      if (!no) { return null; }
+    }
+    return no;
+  }
+
+  var textos = [].slice.call(document.querySelectorAll(EDITAVEIS)).filter(function (el) {
+    return !el.closest("#modal-lock") && !el.closest("[data-admin-ui]");
+  });
+
+  /* o conteúdo que veio no arquivo — serve de referência para saber o que
+     foi reescrito e para desfazer uma alteração sem recarregar a página. */
+  var originais = new Map();
+  /* último conteúdo já gravado — evita mandar ao banco um texto em que
+     o administrador só clicou e saiu sem mudar nada. */
+  var anterior = new Map();
+  textos.forEach(function (el) {
+    originais.set(el, el.innerHTML);
+    anterior.set(el, el.innerHTML);
+  });
+
+  /* o banco guarda só o que foi reescrito. Se o texto voltar a ser o do
+     arquivo, a linha sai da tabela — assim uma edição futura no HTML não
+     fica presa embaixo de uma cópia antiga no banco. */
+  async function salvarTexto(el) {
+    var chave = caminho(el);
+    if (el.innerHTML === originais.get(el)) {
+      var apagou = await sb.from("bolin_conteudo").delete().eq("chave", chave);
+      if (apagou.error) { throw apagou.error; }
+      return;
+    }
+    var gravou = await sb.from("bolin_conteudo").upsert({
+      chave: chave,
+      valor: el.innerHTML,
+      atualizado_em: new Date().toISOString()
+    });
+    if (gravou.error) { throw gravou.error; }
+  }
+
+  /* Regras que valem para qualquer texto editável, seja da página ou de um
+     modelo: cola como texto puro, Enter não quebra o layout e, em modo
+     edição, clicar num link ou botão só posiciona o cursor. */
+  function ligarColagem(el) {
+    el.addEventListener("paste", function (e) {
+      e.preventDefault();
+      var txt = (e.clipboardData || window.clipboardData).getData("text");
+      document.execCommand("insertText", false, txt.replace(/\s*\n\s*/g, " "));
+    });
+    el.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); }
+    });
+    /* (o cursor é posicionado no mousedown, então isto não atrapalha) */
+    el.addEventListener("click", function (e) {
+      if (body.classList.contains("admin")) { e.preventDefault(); }
+    });
+  }
+
+  function ligarEdicao(el) {
+    ligarColagem(el);
+    el.addEventListener("blur", async function () {
+      if (el.innerHTML === anterior.get(el)) { return; }   /* nada mudou */
+      avisar("Salvando…");
+      try {
+        await salvarTexto(el);
+        anterior.set(el, el.innerHTML);
+        avisar("Texto salvo. Já está no ar para quem abrir a página.");
+      } catch (e) {
+        avisar("Não consegui salvar: " + (e.message || e) + " — o texto continua na tela, tente de novo.");
+      }
+    });
+  }
+
+  textos.forEach(ligarEdicao);
+
+  /* =========== WHATSAPP =========== */
+
+  function soDigitos(v) { return (v || "").replace(/\D/g, ""); }
+
+  function formatar(digitos) {
+    var d = digitos.replace(/^55/, "");
+    if (d.length === 11) { return "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7); }
+    if (d.length === 10) { return "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6); }
+    return digitos;
+  }
+
+  function aplicarWhats(digitos) {
+    if (!digitos) { return; }
+    body.setAttribute("data-whats", digitos);
+    var bonito = formatar(digitos);
+    [].slice.call(document.querySelectorAll("[data-fone]")).forEach(function (el) {
+      el.textContent = bonito;
+    });
+    [].slice.call(document.querySelectorAll("a[data-wa]")).forEach(function (a) {
+      a.setAttribute("href", "https://wa.me/" + digitos);
+    });
+  }
+
+  /* ---------- o que já está no banco ---------- */
+
+  /* roda para todo mundo que abre a página, não só para o administrador */
+  async function carregarDoBanco() {
+    if (!sb) { return; }
+
+    await carregarModelos();
+
+    var conteudo = await sb.from("bolin_conteudo").select("chave,valor");
+    if (!conteudo.error && conteudo.data) {
+      conteudo.data.forEach(function (linha) {
+        if (linha.chave === "whatsapp") { aplicarWhats(linha.valor); return; }
+        var el = porCaminho(linha.chave);
+        if (el && textos.indexOf(el) !== -1) {
+          el.innerHTML = linha.valor;
+          anterior.set(el, linha.valor);
+        }
+      });
+    }
+  }
+
+  /* ---------- edição de um card do catálogo ---------- */
+
+  function botao(classe, texto, titulo) {
+    var b = elem("button", classe, texto);
+    b.type = "button";
+    if (titulo) { b.title = titulo; }
+    return b;
+  }
+
+  /* liga um texto do card a uma coluna da tabela */
+  function campoDoModelo(el, m, coluna) {
+    if (!el) { return; }
+    el.setAttribute("contenteditable", "true");
+    ligarColagem(el);
+    el.addEventListener("blur", async function () {
+      var novo = el.textContent.trim();
+      if (novo === (m[coluna] || "")) { return; }
+      avisar("Salvando…");
+      try {
+        var mudanca = {};
+        mudanca[coluna] = novo;
+        await salvar(m, mudanca);
+        avisar("Salvo. Já está no ar.");
+      } catch (e) {
+        avisar("Não consegui salvar: " + (e.message || e));
+      }
+    });
+  }
+
+  /* a ficha técnica é salva inteira, relendo a tabela da tela */
+  async function salvarSpecs(card, m) {
+    var specs = [].slice.call(card.querySelectorAll(".specs tbody tr")).map(function (tr) {
+      return { r: tr.children[0].textContent.trim(), v: tr.children[1].textContent.trim() };
+    }).filter(function (s) { return s.r || s.v; });
+    avisar("Salvando…");
+    try {
+      await salvar(m, { specs: specs });
+      avisar("Ficha técnica salva.");
+    } catch (e) {
+      avisar("Não consegui salvar a ficha: " + (e.message || e));
+    }
+  }
+
+  function ligarLinhaSpec(tr, card, m) {
+    [tr.children[0], tr.children[1]].forEach(function (cel) {
+      cel.setAttribute("contenteditable", "true");
+      ligarColagem(cel);
+      cel.addEventListener("blur", function () { salvarSpecs(card, m); });
+    });
+
+    var celula = elem("td", "spec-del");
+    celula.setAttribute("data-admin-ui", "");
+    var x = botao("", "×", "Remover esta linha da ficha");
+    x.addEventListener("click", function () {
+      tr.parentNode.removeChild(tr);
+      salvarSpecs(card, m);
+    });
+    celula.appendChild(x);
+    tr.appendChild(celula);
+  }
+
+  function ligarFoto(card, m) {
+    var caixa = elem("div", "fig-edit");
+    caixa.setAttribute("data-admin-ui", "");
+
+    var entrada = document.createElement("input");
+    entrada.type = "file";
+    entrada.accept = "image/*";
+    entrada.hidden = true;
+
+    var trocar = botao("", "Trocar foto");
+    var remover = botao("ghost", "Remover");
+
+    trocar.addEventListener("click", function () { entrada.click(); });
+
+    entrada.addEventListener("change", function () {
+      var arquivo = entrada.files && entrada.files[0];
+      entrada.value = "";
+      if (!arquivo) { return; }
+      avisar("Preparando a imagem…");
+      comprimir(arquivo, async function (blob) {
+        if (!blob) { avisar("Não consegui ler esse arquivo. Use um JPG ou PNG."); return; }
+        avisar("Enviando a foto…");
+        try {
+          await trocarFotoModelo(m, blob);
+          avisar("Foto publicada. Já aparece para quem abrir a página.");
+        } catch (e) {
+          avisar("Não consegui enviar a foto: " + (e.message || e));
+        }
+      });
+    });
+
+    remover.addEventListener("click", async function () {
+      avisar("Removendo…");
+      try {
+        await removerFotoModelo(m);
+        avisar("Foto removida deste modelo.");
+      } catch (e) {
+        avisar("Não consegui remover: " + (e.message || e));
+      }
+    });
+
+    caixa.appendChild(entrada);
+    caixa.appendChild(trocar);
+    caixa.appendChild(remover);
+    card.querySelector(".model-fig").appendChild(caixa);
+  }
+
+  function ligarAcoes(card, m) {
+    var acoes = elem("div", "model-acts");
+    acoes.setAttribute("data-admin-ui", "");
+
+    var sobe = botao("mv", "↑", "Mover para antes");
+    sobe.addEventListener("click", function () { moverModelo(m, -1); });
+
+    var desce = botao("mv", "↓", "Mover para depois");
+    desce.addEventListener("click", function () { moverModelo(m, 1); });
+
+    var linha = botao("", "+ linha na ficha");
+    linha.addEventListener("click", function () {
+      var tbody = card.querySelector(".specs tbody");
+      var tr = linhaSpec({ r: "Item", v: "—" });
+      tbody.appendChild(tr);
+      ligarLinhaSpec(tr, card, m);
+      salvarSpecs(card, m);
+    });
+
+    var visivel = botao("", "");
+    function mostrarEstado() {
+      visivel.textContent = m.ativo ? "No site" : "Escondido";
+      visivel.title = m.ativo
+        ? "Está aparecendo para os visitantes — clique para esconder"
+        : "Está escondido dos visitantes — clique para mostrar";
+      if (m.ativo) { card.removeAttribute("data-oculto"); }
+      else { card.setAttribute("data-oculto", ""); }
+    }
+    mostrarEstado();
+    visivel.addEventListener("click", async function () {
+      try {
+        await salvar(m, { ativo: !m.ativo });
+        mostrarEstado();
+        avisar(m.ativo ? "Modelo visível no site." : "Modelo escondido do site.");
+      } catch (e) {
+        avisar("Não consegui mudar: " + (e.message || e));
+      }
+    });
+
+    var apagar = botao("del", "Apagar");
+    apagar.addEventListener("click", async function () {
+      try { await apagarModelo(m); }
+      catch (e) { avisar("Não consegui apagar: " + (e.message || e)); }
+    });
+
+    acoes.appendChild(sobe);
+    acoes.appendChild(desce);
+    acoes.appendChild(linha);
+    acoes.appendChild(visivel);
+    acoes.appendChild(apagar);
+    card.querySelector(".model-body").appendChild(acoes);
+  }
+
+  function ligarCard(card) {
+    var m = MODELOS.filter(function (x) { return x.id === card.dataset.id; })[0];
+    if (!m) { return; }
+
+    campoDoModelo(card.querySelector(".badge"), m, "selo");
+    campoDoModelo(card.querySelector(".model-body h3"), m, "nome");
+    campoDoModelo(card.querySelector(".pitch"), m, "pitch");
+
+    [].slice.call(card.querySelectorAll(".specs tbody tr")).forEach(function (tr) {
+      ligarLinhaSpec(tr, card, m);
+    });
+
+    ligarFoto(card, m);
+    ligarAcoes(card, m);
+  }
+
+  /* botão de criar modelo, embaixo da lista */
+  function montarBotaoNovo() {
+    if (botaoNovo) { return; }
+    botaoNovo = elem("div", "novo-modelo");
+    botaoNovo.setAttribute("data-admin-ui", "");
+    var b = botao("btn", "+ Novo modelo");
+    b.addEventListener("click", async function () {
+      avisar("Criando…");
+      try {
+        await novoModelo();
+        avisar("Modelo criado. Troque a foto e reescreva os textos dele.");
+      } catch (e) {
+        avisar("Não consegui criar: " + (e.message || e));
+      }
+    });
+    botaoNovo.appendChild(b);
+    grade.parentNode.insertBefore(botaoNovo, grade.nextSibling);
+  }
+
+  /* ---------- barra inferior ---------- */
+
+  function avisar(texto) { if (recado) { recado.textContent = texto; } }
+
+  function montarBarra() {
+    if (barra) { return; }
+    barra = document.createElement("div");
+    barra.className = "adminbar";
+    barra.setAttribute("data-admin-ui", "");
+
+    var tag = document.createElement("span");
+    tag.className = "ab-tag";
+    tag.textContent = "Modo edição";
+
+    recado = document.createElement("span");
+    recado.className = "ab-msg";
+    recado.textContent = "Clique em qualquer texto tracejado para reescrever. Nas fotos, use “Trocar foto”. Tudo é salvo no banco na hora.";
+
+    var acoes = document.createElement("span");
+    acoes.className = "ab-acts";
+
+    var contato = document.createElement("button");
+    contato.type = "button";
+    contato.className = "ab-btn ab-btn--ghost";
+    contato.textContent = "WhatsApp";
+    contato.addEventListener("click", function () { painel.classList.toggle("open"); });
+
+    var zerar = document.createElement("button");
+    zerar.type = "button";
+    zerar.className = "ab-btn ab-btn--ghost";
+    zerar.textContent = "Restaurar original";
+    zerar.addEventListener("click", restaurarTudo);
+
+    var sair = document.createElement("button");
+    sair.type = "button";
+    sair.className = "ab-btn ab-btn--ghost";
+    sair.textContent = "Sair";
+    sair.addEventListener("click", travar);
+
+    acoes.appendChild(contato);
+    acoes.appendChild(zerar);
+    acoes.appendChild(sair);
+    barra.appendChild(tag);
+    barra.appendChild(recado);
+    barra.appendChild(acoes);
+    document.body.appendChild(barra);
+    montarPainel();
+  }
+
+  /* ---------- painel do WhatsApp ---------- */
+
+  var painel = null;
+
+  function montarPainel() {
+    if (painel) { return; }
+    painel = document.createElement("div");
+    painel.className = "painel";
+    painel.setAttribute("data-admin-ui", "");
+
+    var tit = document.createElement("h4");
+    tit.textContent = "WhatsApp do atendimento";
+
+    var exp = document.createElement("p");
+    exp.textContent = "Com DDD. Atualiza o número no rodapé, no bloco da consultora e no botão do formulário.";
+
+    var campoTel = document.createElement("input");
+    campoTel.type = "tel";
+    campoTel.placeholder = "(11) 94296-4321";
+    campoTel.value = formatar(body.getAttribute("data-whats") || "");
+    campoTel.style.cssText = "font-family:inherit;font-size:16px;padding:12px 13px;border:1.5px solid var(--line);border-radius:var(--r-sm);background:var(--ground);width:100%;";
+
+    var salvarTel = document.createElement("button");
+    salvarTel.type = "button";
+    salvarTel.className = "btn";
+    salvarTel.textContent = "Aplicar número";
+    salvarTel.addEventListener("click", async function () {
+      var d = soDigitos(campoTel.value);
+      if (d.length < 10) { avisar("Número incompleto — informe DDD e o número."); return; }
+      if (d.indexOf("55") !== 0) { d = "55" + d; }
+      avisar("Salvando…");
+      var gravou = await sb.from("bolin_conteudo").upsert({
+        chave: "whatsapp",
+        valor: d,
+        atualizado_em: new Date().toISOString()
+      });
+      if (gravou.error) { avisar("Não consegui salvar o número: " + gravou.error.message); return; }
+      aplicarWhats(d);
+      campoTel.value = formatar(d);
+      painel.classList.remove("open");
+      avisar("WhatsApp atualizado em toda a página.");
+    });
+
+    painel.appendChild(tit);
+    painel.appendChild(exp);
+    painel.appendChild(campoTel);
+    painel.appendChild(salvarTel);
+    document.body.appendChild(painel);
+  }
+
+  /* ---------- voltar ao original ---------- */
+
+  async function restaurarTudo() {
+    if (!window.confirm(
+      "Isto apaga do banco o CATÁLOGO INTEIRO (" + MODELOS.length + " modelo(s), com as fotos) " +
+      "e todos os textos que você reescreveu — para todo mundo. Não tem volta. Continuar?"
+    )) { return; }
+    avisar("Limpando…");
+    try {
+      var arquivos = MODELOS
+        .map(function (m) { return m.foto_caminho || ""; })
+        .filter(function (n) { return !!n; });
+      if (arquivos.length) { await sb.storage.from(BALDE).remove(arquivos); }
+      await sb.from("bolin_modelos").delete().neq("nome", " ");
+      await sb.from("bolin_conteudo").delete().neq("chave", " ");
+    } catch (e) {
+      avisar("Não consegui limpar tudo: " + (e.message || e));
+      return;
+    }
+    window.location.reload();
+  }
+
+  /* ---------- destravar / travar ---------- */
+
+  function destravar() {
+    body.classList.add("admin");
+    textos.forEach(function (el) { el.setAttribute("contenteditable", "true"); });
+    montarBarra();
+    montarBotaoNovo();
+    renderModelos();          /* redesenha os cards já com os controles */
+    fechar();
+  }
+
+  async function travar() {
+    body.classList.remove("admin");
+    textos.forEach(function (el) { el.removeAttribute("contenteditable"); });
+    renderModelos();          /* cards limpos, sem nenhum controle */
+    if (barra) { barra.parentNode.removeChild(barra); barra = null; recado = null; }
+    if (painel) { painel.parentNode.removeChild(painel); painel = null; }
+    if (botaoNovo) { botaoNovo.parentNode.removeChild(botaoNovo); botaoNovo = null; }
+    if (sb) { await sb.auth.signOut(); }
+  }
+
+  function abrir() {
+    erro.textContent = "";
+    campo.value = "";
+    modal.classList.add("open");
+    campo.focus();
+  }
+
+  function fechar() { modal.classList.remove("open"); }
+
+  /* Entrar de verdade: quem libera a edição é o banco, não uma senha
+     escrita no código. Sem a conta certa, o Supabase recusa a gravação
+     mesmo que alguém force o modo edição pelo navegador. */
+  async function conferir() {
+    if (!sb) { erro.textContent = "Sem conexão com o banco de dados."; return; }
+    erro.textContent = "Entrando…";
+    var r = await sb.auth.signInWithPassword({
+      email: USUARIO_FIXO,
+      password: campo.value
+    });
+    if (r.error) {
+      erro.textContent = r.error.message === "Invalid login credentials"
+        ? "Senha incorreta."
+        : r.error.message;
+      campo.select();
+      return;
+    }
+    erro.textContent = "";
+    destravar();
+  }
+
+  document.getElementById("btn-lock").addEventListener("click", async function () {
+    if (body.classList.contains("admin")) { travar(); return; }
+    /* se a sessão do administrador ainda está valendo, entra direto */
+    var sessao = sb ? (await sb.auth.getSession()).data.session : null;
+    if (sessao) { destravar(); } else { abrir(); }
+  });
+  document.getElementById("btn-entrar").addEventListener("click", conferir);
+  document.getElementById("btn-cancelar").addEventListener("click", fechar);
+  campo.addEventListener("keydown", function (e) { if (e.key === "Enter") { conferir(); } });
+  modal.addEventListener("click", function (e) { if (e.target === modal) { fechar(); } });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && modal.classList.contains("open")) { fechar(); }
+  });
+
+  carregarDoBanco();
+})();
+</script>
+</body>
+</html>
