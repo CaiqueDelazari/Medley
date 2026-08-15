@@ -1,8 +1,10 @@
 # Configuração local de ferramenta, não faz parte do site
 .claude/
 
-# Pasta montada só para arrastar no Netlify (cópia do que já está aqui)
-publicar/
+# Prévia do catálogo com dados de mentira — só para conferir o visual
+# antes de rodar o SQL. Não entra no repositório e, por isso, também
+# não vai para o ar.
+site/_previa-catalogo.html
 
 # Lixo do sistema
 Thumbs.db

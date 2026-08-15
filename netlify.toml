@@ -1,0 +1,16 @@
+# Só a pasta "site" vai para o ar.
+#
+# Antes disto o Netlify publicava a raiz do repositório inteira, e os
+# arquivos internos ficavam acessíveis no endereço do site:
+# bolinmotoseletricas.com.br/supabase-bolin.sql abria o SQL, e o
+# /LEIA-ME.md abria o manual — que conta, entre outras coisas, que o
+# mesmo Supabase atende a Agropecuária JG.
+#
+# Com "publish" apontando para a pasta site, o que estiver fora dela
+# fica no repositório mas nunca é publicado. Documentação e SQL novos
+# podem entrar na raiz sem medo.
+#
+# Esta configuração vale mais que a que estiver no painel do Netlify.
+
+[build]
+  publish = "site"
