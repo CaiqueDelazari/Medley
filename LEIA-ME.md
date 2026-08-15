@@ -225,9 +225,9 @@ Duas consequências práticas:
 Os três vídeos que a fábrica mandou estão em `site/videos/` (`bolin-1.mp4`,
 `bolin-2.mp4`, `bolin-3.mp4`) e a seção **Em movimento** já aparece no site.
 
-Os títulos são *"Linha BOLIN na loja · 1, 2, 3"*, porque os três foram gravados
-dentro da loja. Se um dia quiser trocar pelo nome do modelo que aparece em cada
-um, eles ficam no `index.html`, no `<h3>` de cada bloco `<article class="filme">`.
+Os três estão legendados *"Linha BOLIN na loja"*. Se um dia quiser trocar pelo
+nome do modelo que aparece em cada um, as legendas ficam no `index.html`, no
+`<h3>` de cada bloco `<article class="filme">`.
 
 Para acrescentar outro vídeo: ponha o `.mp4` em `site/videos/`, copie um dos blocos
 e troque o arquivo e o título. Se quiser uma capa, ponha um `.jpg` na mesma
