@@ -15,6 +15,7 @@ o ar** — quem garante isso é o `netlify.toml`.
 | Arquivo | O que é |
 |---|---|
 | `site/index.html` | A página inteira (visual, catálogo, formulário e área de edição) |
+| `site/privacidade.html` | Política de privacidade — exigida pelo Google Ads e pela LGPD |
 | `site/catalogo/` | As fotos dos 35 produtos, tiradas dos PDFs do fabricante |
 | `site/videos/` | Os três vídeos da seção "Em movimento" |
 | `site/Logo (2).jpeg` | Logo da marca |
@@ -233,6 +234,58 @@ Apagando os três blocos, a seção some sozinha.
 Vale a pena manter cada arquivo abaixo de uns 10 MB. Os três de hoje somam
 9,7 MB e o navegador só baixa o começo de cada um — quem não apertar o play
 não carrega o vídeo inteiro.
+
+---
+
+## Anunciar no Google
+
+A página já está pronta para receber tráfego pago. O que foi feito para isso:
+
+**`site/privacidade.html`** — política de privacidade. É o item que mais reprova
+landing page de captação: sempre que uma página pede dado pessoal e não tem
+política, o Google barra o anúncio por "coleta de dados irresponsável", e a LGPD
+exige de qualquer jeito. O texto foi escrito em cima do que a página realmente
+faz — inclusive a parte mais forte dela, que é o formulário **não guardar nada**:
+o navegador monta a mensagem e abre o WhatsApp, sem passar por banco nenhum.
+
+O link para ela fica no fim do rodapé e **não é editável pelo cadeado**, de
+propósito: é link obrigatório, não pode sumir num clique sem querer.
+
+**O bloco do Google Ads** fica no último `<script>` do `index.html`. São duas
+linhas vazias esperando os códigos:
+
+```js
+var ID_GOOGLE_ADS = "";     // ex.: "AW-123456789"
+var CONVERSAO = "";         // ex.: "AW-123456789/AbC-D_efGh12ijk"
+```
+
+Enquanto estiverem vazias o bloco **não faz absolutamente nada**: não carrega
+script do Google, não grava cookie e não mostra barra de aviso. Preenchendo as
+duas, três coisas passam a valer sozinhas:
+
+1. a tag do Google carrega;
+2. aparece a barra de cookies (a resposta do visitante fica no navegador dele,
+   e antes de responder nada de anúncio é gravado — é o modo de consentimento
+   do próprio Google);
+3. cada vez que alguém abre o WhatsApp, pelo formulário ou por qualquer botão,
+   conta uma conversão.
+
+A conversão é disparada no momento em que o WhatsApp **abre de verdade**, não no
+clique do botão "enviar" — senão contaria também quem esqueceu de preencher um
+campo. Quem faz a ponte é o evento `bolin:whatsapp`, disparado pelo formulário.
+
+**Onde o cliente pega os dois códigos:** o `AW-` fica em Ferramentas > Tags do
+Google. O da conversão, em Metas > Conversões > a ação > Tag do Google.
+
+### O que ainda depende do cliente
+
+- **Verificação de identidade do anunciante** no Google Ads (CNPJ e documento).
+  É obrigatória e é o que mais atrasa — de dias a semanas. Vale começar antes de
+  tudo, porque sem ela o anúncio não roda.
+- **Razão social e CNPJ na política de privacidade.** Hoje ela identifica a
+  empresa pela marca e pelo WhatsApp, o que basta para publicar. Assim que o
+  cliente mandar os dados formais, vale acrescentar no primeiro parágrafo do
+  `privacidade.html` — fica mais sólido se algum dia for questionado.
 
 ---
 

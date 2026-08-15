@@ -4,6 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BOLIN Electric Motor — Fábrica de Scooters Elétricas · Atacado</title>
+<meta name="description" content="Fábrica de scooters, motos, triciclos e patinetes elétricos para revenda. Catálogo com 35 modelos e preço de atacado por faixa de quantidade. Venda exclusiva para CNPJ.">
+<link rel="icon" href="Logo%20(2).jpeg">
+<link rel="canonical" href="https://bolinmotoseletricas.com.br/">
+
+<!-- Como o link aparece quando alguém manda a página no WhatsApp ou posta -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://bolinmotoseletricas.com.br/">
+<meta property="og:site_name" content="BOLIN Electric Motor">
+<meta property="og:title" content="BOLIN Electric Motor — fábrica de elétricos para revenda">
+<meta property="og:description" content="35 modelos entre scooters, motos, triciclos, patinetes e cadeiras de rodas. Preço de atacado por faixa de quantidade, venda exclusiva para CNPJ.">
+<meta property="og:image" content="https://bolinmotoseletricas.com.br/catalogo/x15.jpg">
+<meta name="twitter:card" content="summary_large_image">
 
 <style>
   /* ================= TOKENS =================
@@ -725,6 +738,60 @@
     font-size: 13px;
     color: #8E7F75;
   }
+  .foot-links { padding-bottom: 28px; font-size: 13px; }
+  .foot-links a { color: #A5958A; text-decoration: underline; text-underline-offset: 3px; }
+  .foot-links a:hover { color: var(--accent); }
+
+  /* ---- aviso de cookies (LGPD) ----
+     Só é montado quando a tag do Google estiver configurada; sem tag não
+     há cookie de anúncio, e barra sem motivo só atrapalha o visitante. */
+  .cookies {
+    position: fixed;
+    left: 16px; right: 16px; bottom: 16px;
+    z-index: 60;
+    margin-inline: auto;
+    max-width: 720px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 18px;
+    padding: 18px 20px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--r);
+    background: var(--paper);
+    box-shadow: var(--shadow-lg);
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .cookies p { flex: 1 1 320px; margin: 0; }
+  .cookies a { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
+  .cookies .cookies-acts { display: flex; gap: 10px; flex-wrap: wrap; }
+  .cookies button {
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 650;
+    line-height: 1;
+    padding: 12px 18px;
+    border-radius: var(--pill);
+    border: 1.5px solid var(--ink);
+    background: var(--ink);
+    color: var(--paper);
+    cursor: pointer;
+  }
+  .cookies button.recusar { background: transparent; color: var(--ink-2); border-color: var(--line-2); }
+  .cookies button:hover { border-color: var(--accent); }
+  .cookies button.recusar:hover { color: var(--accent-deep); }
+  @media (max-width: 560px) {
+    .cookies { left: 10px; right: 10px; padding: 16px; }
+    .cookies .cookies-acts { width: 100%; }
+    .cookies .cookies-acts button { flex: 1; }
+  }
+  /* No celular a barra fixa do WhatsApp ocupa o rodapé da tela — o aviso
+     sobe para cima dela, senão esconde justamente o botão que converte. */
+  @media (max-width: 760px) {
+    .cookies { bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+  }
 
   /* barra fixa mobile */
   .sticky-cta {
@@ -1288,6 +1355,14 @@
     </p>
   </div>
   <div class="wrap foot-bar">© 2026 BOLIN Electric Motor. Todos os direitos reservados.</div>
+
+  <!-- Fica DEPOIS da barra de copyright de propósito: as chaves dos textos
+       editáveis são a posição do elemento, então acrescentar no fim não
+       empurra ninguém. E não entra na lista de textos editáveis — é link
+       obrigatório, não pode sumir num clique sem querer. -->
+  <div class="wrap foot-links">
+    <a href="privacidade.html">Política de privacidade</a>
+  </div>
 </footer>
 
 <div class="sticky-cta">
@@ -1371,6 +1446,11 @@
       var whats = (document.body.getAttribute("data-whats") || "").replace(/\D/g, "");
 
       window.open("https://wa.me/" + whats + "?text=" + encodeURIComponent(texto), "_blank", "noopener");
+
+      /* avisa quem estiver ouvindo que uma conversa começou de verdade —
+         é daqui que sai a conversão do Google Ads, e não do clique em
+         "enviar", que também acontece quando falta preencher campo */
+      document.dispatchEvent(new CustomEvent("bolin:whatsapp", { detail: { origem: "formulario" } }));
 
       note.textContent = "Pronto — o WhatsApp abriu com a sua mensagem montada. É só apertar enviar.";
       note.style.color = "var(--accent-deep)";
@@ -2355,6 +2435,141 @@
 
   carregarDoBanco();
 })();
+</script>
+
+<script>
+/* =====================================================================
+   GOOGLE ADS — medição e consentimento
+
+   Enquanto as duas linhas abaixo estiverem vazias, este bloco NÃO FAZ
+   NADA: não carrega script do Google, não grava cookie e não mostra a
+   barra de aviso. A página fica exatamente como está hoje.
+
+   Para ligar, o cliente pega os dois códigos na conta dele do Google Ads:
+
+     ID_GOOGLE_ADS  — Ferramentas > Tags do Google. É o "AW-" seguido de
+                      números. Ex.: "AW-123456789"
+     CONVERSAO      — Metas > Conversões > (a ação de conversão) > "Tag
+                      do Google". É o mesmo AW-, uma barra, e um código
+                      de letras. Ex.: "AW-123456789/AbC-D_efGh12ijk"
+
+   Preenchendo os dois, passa a acontecer:
+     - a tag do Google carrega
+     - aparece a barra de cookies (exigência da LGPD)
+     - cada vez que um visitante abre o WhatsApp — pelo formulário ou por
+       qualquer botão da página — conta uma conversão
+
+   O consentimento usa o modo do próprio Google: antes de o visitante
+   responder, nada de anúncio é gravado. Quem recusa continua sendo
+   contado de forma agregada, sem cookie e sem identificação.
+   ===================================================================== */
+(function () {
+  var ID_GOOGLE_ADS = "";     /* ex.: "AW-123456789"                        */
+  var CONVERSAO = "";         /* ex.: "AW-123456789/AbC-D_efGh12ijk"        */
+
+  var CHAVE = "bolin-cookies";        /* onde a resposta do visitante fica  */
+
+  if (!ID_GOOGLE_ADS) { return; }     /* sem tag configurada, fim           */
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+
+  /* Antes de qualquer coisa: nada de anúncio até o visitante responder.
+     Isto tem que vir antes do script do Google carregar. */
+  var guardado = null;
+  try { guardado = window.localStorage.getItem(CHAVE); } catch (e) { guardado = null; }
+
+  gtag("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    wait_for_update: 500
+  });
+
+  if (guardado === "aceito") { liberar(); }
+
+  function liberar() {
+    gtag("consent", "update", {
+      ad_storage: "granted",
+      ad_user_data: "granted",
+      ad_personalization: "granted",
+      analytics_storage: "granted"
+    });
+  }
+
+  var s = document.createElement("script");
+  s.async = true;
+  s.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(ID_GOOGLE_ADS);
+  document.head.appendChild(s);
+
+  gtag("js", new Date());
+  gtag("config", ID_GOOGLE_ADS);
+
+  /* ---------- a conversão ----------
+     Não é o clique no botão "enviar": é o momento em que o WhatsApp
+     abriu de verdade, com a mensagem montada. */
+  function contar(origem) {
+    if (!CONVERSAO) { return; }
+    gtag("event", "conversion", { send_to: CONVERSAO, origem: origem || "" });
+  }
+
+  document.addEventListener("bolin:whatsapp", function (e) {
+    contar((e.detail && e.detail.origem) || "formulario");
+  });
+
+  /* os botões de WhatsApp espalhados pela página (topo, faixa, rodapé) */
+  document.addEventListener("click", function (e) {
+    var alvo = e.target;
+    while (alvo && alvo !== document.body) {
+      if (alvo.tagName === "A" && alvo.hasAttribute("data-wa")) { contar("botao"); return; }
+      alvo = alvo.parentElement;
+    }
+  });
+
+  /* ---------- barra de cookies ---------- */
+  if (guardado) { return; }           /* já respondeu, não pergunta de novo */
+
+  function montarAviso() {
+    var caixa = document.createElement("div");
+    caixa.className = "cookies";
+    caixa.setAttribute("role", "region");
+    caixa.setAttribute("aria-label", "Aviso de cookies");
+
+    var texto = document.createElement("p");
+    texto.innerHTML = "Usamos cookies para medir de onde vêm as visitas do anúncio. " +
+      "Nada disso é necessário para navegar aqui. " +
+      "<a href=\"privacidade.html\">Política de privacidade</a>.";
+
+    var acoes = document.createElement("div");
+    acoes.className = "cookies-acts";
+
+    function botao(rotulo, classe, resposta) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = classe;
+      b.textContent = rotulo;
+      b.addEventListener("click", function () {
+        try { window.localStorage.setItem(CHAVE, resposta); } catch (err) { /* modo anônimo */ }
+        if (resposta === "aceito") { liberar(); }
+        caixa.parentNode.removeChild(caixa);
+      });
+      return b;
+    }
+
+    acoes.appendChild(botao("Recusar", "recusar", "recusado"));
+    acoes.appendChild(botao("Aceitar", "", "aceito"));
+    caixa.appendChild(texto);
+    caixa.appendChild(acoes);
+    document.body.appendChild(caixa);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", montarAviso);
+  } else {
+    montarAviso();
+  }
+}());
 </script>
 </body>
 </html>
