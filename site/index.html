@@ -1014,7 +1014,8 @@
         </div>
 
         <div class="kpis">
-          <div class="kpi"><b class="num">49</b><span>Modelos em linha</span></div>
+          <!-- o 35 aqui é só o valor de partida: o script conta o catálogo -->
+          <div class="kpi"><b class="num" data-conta-modelos>35</b><span>Modelos em linha</span></div>
           <div class="kpi"><b class="num">1.000 W</b><span>Potência de topo</span></div>
           <div class="kpi"><b class="txt">Autopropelido</b><span>Categoria do veículo</span></div>
         </div>
@@ -1780,6 +1781,25 @@
     if (r.error) { return; }
     MODELOS = r.data || [];
     renderModelos();
+    contarModelos();
+  }
+
+  /* O "Modelos em linha" do topo era um número escrito na mão, e envelhecia
+     toda vez que o catálogo mudava — chegou a dizer 49 com 35 cadastrados.
+     Agora ele conta o que está no ar.
+
+     Se a dona reescrever esse número pelo cadeado, o dela manda: aqui a
+     gente só mexe enquanto o texto for o que veio no arquivo, e o valor
+     salvo por ela é aplicado depois, em carregarDoBanco. Acertar o
+     'anterior' evita que um clique sem edição grave a contagem como se
+     fosse escolha dela. */
+  function contarModelos() {
+    var el = document.querySelector("[data-conta-modelos]");
+    if (!el || el.innerHTML !== originais.get(el)) { return; }
+    var quantos = MODELOS.filter(function (m) { return m.ativo; }).length;
+    if (!quantos) { return; }
+    el.innerHTML = String(quantos);
+    anterior.set(el, el.innerHTML);
   }
 
   /* grava um punhado de campos de um modelo e mantém a cópia local igual */

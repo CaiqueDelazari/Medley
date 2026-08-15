@@ -169,6 +169,10 @@ Detalhes úteis:
 - No modo edição a **barra de grupos some** e todos os produtos aparecem de
   uma vez, escondidos inclusive. É de propósito: com um grupo escolhido, um
   produto novo (que nasce sem tarja) sumiria da tela na hora de criar.
+- O **"Modelos em linha"** lá no topo se conta sozinho: é o número de produtos
+  visíveis no catálogo. Se ela reescrever esse número pelo cadeado, o dela passa
+  a mandar e a contagem automática para. Para voltar a contar sozinho, é só
+  apagar o texto que ela escreveu e deixar o número que veio no arquivo.
 - Cada produto tem a **sua** ficha técnica. Uma scooter pode ter "Velocidade" e
   outra "Pneu" — não precisam ter as mesmas linhas.
 - Quantas fotos quiser por produto. O visitante só vê a fileira de miniaturas
