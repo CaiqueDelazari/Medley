@@ -16,7 +16,7 @@ o ar** — quem garante isso é o `netlify.toml`.
 |---|---|
 | `site/index.html` | A página inteira (visual, catálogo, formulário e área de edição) |
 | `site/privacidade.html` | Política de privacidade — exigida pelo Google Ads e pela LGPD |
-| `site/catalogo/` | As fotos dos 35 produtos, tiradas dos PDFs do fabricante |
+| `site/catalogo/` | As fotos dos 35 produtos: as dos PDFs do fabricante mais as três do E50, que a loja tirou |
 | `site/videos/` | Os três vídeos da seção "Em movimento" |
 | `site/Logo (2).jpeg` | Logo da marca |
 | `netlify.toml` | Diz ao Netlify que só a pasta `site/` é publicada |
@@ -63,9 +63,12 @@ cada produto, na ordem em que eles aparecem. Consequências práticas:
   nenhum. Vale a pena dar tarja a todo mundo.
 - Com menos de dois grupos a barra some — não faz sentido filtrar.
 
-Hoje são nove: Scooter (6), Moto elétrica (4), Ciclomotor (6), Triciclo (3),
-Quadriciclo (1), Off-road (3), Patinete (7), Infantil (2) e Cadeira de
-rodas (3).
+Hoje são oito: Scooter (6), Moto elétrica (5), Ciclomotor (6), Triciclo (3),
+Off-road (3), Patinete (7), Infantil (2) e Cadeira de rodas (3).
+
+O "Quadriciclo" era o nono, com o 4 Wheels sozinho dentro. O produto saiu do
+catálogo a pedido do Caique e, como a barra vem das tarjas, o botão saiu
+junto — não foi preciso mexer em lista de grupo nenhuma.
 
 ---
 

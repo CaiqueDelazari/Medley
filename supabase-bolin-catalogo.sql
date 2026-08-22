@@ -7,10 +7,17 @@
 --
 -- O que ele faz:
 --   1) apaga o catálogo que estiver no banco
---   2) cadastra os 35 produtos dos dois catálogos do fabricante:
---      "Catalogo Scooters - Correto" (24) e "Novo Catálogo de Produtos -
+--   2) cadastra os 34 produtos dos dois catálogos do fabricante:
+--      "Catalogo Scooters - Correto" (23) e "Novo Catálogo de Produtos -
 --      Plus" (11 — a página do KS202 e a do 201 Mini vêm repetidas lá e
 --      entram uma vez só)
+--   3) cadastra o E50, que não está em catálogo nenhum — são 35 no fim
+--
+--   O quadriciclo "4 Wheels" saía nos dois catálogos do fabricante, mas
+--   a loja não trabalha com ele: foi tirado a pedido do Caique. Era o
+--   único do grupo "Quadriciclo", então esse botão sumiu da barra de
+--   filtros junto — a barra é montada a partir das tarjas dos produtos.
+--   As fotos dele também saíram de site/catalogo.
 --
 -- Cada produto entra com DUAS fotos: o produto recortado, que é a capa
 -- do card, e a página inteira do catálogo, que fica na fileira de
@@ -100,47 +107,42 @@ with catalogo(ordem, nome, selo, arquivo, pitch, specs) as (values
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Branco · Verde · Marrom"}]'::jsonb),
 
   -- ---------- Ciclomotores ----------
-  (11, '1822', 'Ciclomotor', '1822',
+  (12, '1822', 'Ciclomotor', '1822',
    'Banco duplo, cesto na frente e bagageiro atrás. Bateria de 60 V no corpo mais leve da linha.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 20 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Verde · Branco"}]'::jsonb),
 
-  (12, '1958', 'Ciclomotor', '1958',
+  (13, '1958', 'Ciclomotor', '1958',
    'Painel redondo, cesto de vime e barra lateral laranja. O de visual mais retrô.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (13, '1962', 'Ciclomotor', '1962',
+  (14, '1962', 'Ciclomotor', '1962',
    'Farol duplo redondo, estribo largo e garupa com encosto.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (14, '1970', 'Ciclomotor', '1970',
+  (15, '1970', 'Ciclomotor', '1970',
    'Espelhos, cesto na frente e baú lateral. O mais completo dos ciclomotores.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (15, '1994', 'Ciclomotor', '1994',
+  (16, '1994', 'Ciclomotor', '1994',
    'O mais simples da linha: leve, com cesto, dois bancos e nada sobrando.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 20 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Branco"}]'::jsonb),
 
-  (16, '2002', 'Ciclomotor', '2002',
+  (17, '2002', 'Ciclomotor', '2002',
    'Rodas maiores, quadro reforçado e garupa larga. O de carga entre os ciclomotores.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 20 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
   -- ---------- Triciclos ----------
-  (17, 'T1', 'Triciclo', 't1',
+  (18, 'T1', 'Triciclo', 't1',
    'Três rodas, baú traseiro e banco estofado. Estabilidade para quem não anda de duas.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 18 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"3 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza · Branco"}]'::jsonb),
 
-  (18, 'T2', 'Triciclo', 't2',
+  (19, 'T2', 'Triciclo', 't2',
    'Cesto na frente, estribo largo e banco duplo com encosto e apoio de braço.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 18 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"3 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza · Branco"}]'::jsonb),
 
-  (19, 'T3', 'Triciclo', 't3',
+  (20, 'T3', 'Triciclo', 't3',
    'O mais comprido dos três: estribo de carga entre as rodas, cesto e dois bancos.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 18 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"3 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza · Branco"}]'::jsonb),
-
-  -- ---------- Quadriciclo ----------
-  (20, '4 Wheels', 'Quadriciclo', '4-wheels',
-   'Quatro rodas, teto rígido e para-brisa. Banco com apoio de braço e comando ao lado.',
-   '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 20 A"},{"r":"Velocidade","v":"25 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"3 horas"},{"r":"Cores","v":"Cinza"}]'::jsonb),
 
   -- ---------- Off-road ----------
   (21, 'W1 Plus', 'Off-road', 'w1-plus',
@@ -221,6 +223,38 @@ select c.nome,
        true,
        c.ordem
   from catalogo c;
+
+
+-- ---------------------------------------------------------------------
+-- 3) O E50
+--
+--    Ele não veio de nenhum dos dois PDFs do fabricante: chegou depois,
+--    e as fotos são as três que a loja tirou — preta, verde e cinza, do
+--    mesmo ângulo. Por isso ele entra num insert só dele: todo o resto
+--    do catálogo tem sempre duas fotos (o produto recortado e a página
+--    do catálogo), e o E50 tem três e nenhuma página.
+--
+--    A ficha é a que o Caique mandou. As cores também são as dele:
+--    branco, cinza, verde e preto.
+--
+--    Ordem 11 põe o E50 logo depois do E40, fechando a linha E — por
+--    isso os produtos daí para baixo estão numerados a partir de 12.
+-- ---------------------------------------------------------------------
+insert into public.bolin_modelos
+       (nome, selo, pitch, foto, foto_caminho, fotos, specs, ativo, ordem)
+values ('E50',
+        'Moto elétrica',
+        'Baú de série, espelhos e faixa de LED acesa na frente. A mais equipada da linha E.',
+        '/catalogo/e50.jpg',
+        '',                                  -- não está no balde: é arquivo do site
+        jsonb_build_array(
+          jsonb_build_object('u', '/catalogo/e50.jpg',       'c', ''),
+          jsonb_build_object('u', '/catalogo/e50-verde.jpg', 'c', ''),
+          jsonb_build_object('u', '/catalogo/e50-cinza.jpg', 'c', '')
+        ),
+        '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Branco · Cinza · Verde · Preto"}]'::jsonb,
+        true,
+        11);
 
 
 -- ---------------------------------------------------------------------
