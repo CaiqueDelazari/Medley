@@ -63,10 +63,15 @@ cada produto, na ordem em que eles aparecem. Consequências práticas:
   nenhum. Vale a pena dar tarja a todo mundo.
 - Com menos de dois grupos a barra some — não faz sentido filtrar.
 
-Hoje são oito: Scooter (6), Moto elétrica (5), Ciclomotor (6), Triciclo (3),
-Off-road (3), Patinete (7), Infantil (2) e Cadeira de rodas (3).
+Hoje são seis: autopropelido (17), Triciclo (3), Off-road (3), Patinete (7),
+Infantil (2) e Cadeira de rodas (3).
 
-O "Quadriciclo" era o nono, com o 4 Wheels sozinho dentro. O produto saiu do
+Scooter, moto elétrica e ciclomotor eram três grupos e viraram **um só,
+`autopropelido`** — decisão do Caique, definitiva. A troca foi feita direto no
+banco e o `supabase-bolin-catalogo.sql` já está igual, então rodar o arquivo de
+novo não desfaz mais nada.
+
+O "Quadriciclo" também era um grupo, com o 4 Wheels sozinho dentro. O produto saiu do
 catálogo a pedido do Caique e, como a barra vem das tarjas, o botão saiu
 junto — não foi preciso mexer em lista de grupo nenhuma.
 

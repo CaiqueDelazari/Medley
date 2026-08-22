@@ -61,73 +61,79 @@ delete from public.bolin_modelos;
 --    O "selo" é a tarja que aparece em cima da foto E o nome do grupo na
 --    barra de filtros do site. Mexer no selo de um produto muda os dois
 --    ao mesmo tempo; um selo novo vira um botão novo na barra sozinho.
+--
+--    Scooter, moto elétrica e ciclomotor eram três grupos e viraram um
+--    só, "autopropelido", a pedido do Caique — é definitivo. A troca foi
+--    feita direto no banco primeiro e este arquivo só foi atrás. Os três
+--    blocos abaixo continuam separados porque ajudam a achar o produto
+--    na hora de mexer, mas no site os 17 saem embaixo do mesmo botão.
 -- ---------------------------------------------------------------------
 with catalogo(ordem, nome, selo, arquivo, pitch, specs) as (values
 
   -- ---------- Scooters de perna larga ----------
-  (1, 'X15', 'Scooter', 'x15',
+  (1, 'X15', 'autopropelido', 'x15',
    'Banco corrido com encosto, pneu largo e roda de raios. Ré e bluetooth de série.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Diferenciais","v":"Ré + bluetooth"},{"r":"Cores","v":"Verde · Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (2, 'X13', 'Scooter', 'x13',
+  (2, 'X13', 'autopropelido', 'x13',
    'A mesma mecânica da X15 com entrada para duas baterias — o dobro de rua sem trocar de modelo.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Diferenciais","v":"Ré + bluetooth · entrada para 2 baterias"},{"r":"Cores","v":"Vermelho · Preto · Cinza · Union Jack"}]'::jsonb),
 
-  (3, 'X11', 'Scooter', 'x11',
+  (3, 'X11', 'autopropelido', 'x11',
    'A X de todo dia: acabamento preto fosco, encosto e bagageiro atrás do banco.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Diferenciais","v":"Ré + bluetooth"},{"r":"Cores","v":"Vermelho · Preto · Cinza · Union Jack"}]'::jsonb),
 
-  (4, 'X20', 'Scooter', 'x20',
+  (4, 'X20', 'autopropelido', 'x20',
    'A mais equipada da linha X: farol duplo, espelhos e banco estofado com encosto.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Diferenciais","v":"Ré + bluetooth"},{"r":"Cores","v":"Preto · Vermelho · Branco · Verde · Union Jack"}]'::jsonb),
 
-  (5, '701', 'Scooter', '701',
+  (5, '701', 'autopropelido', '701',
    'Desenho de chopper, farol redondo e para-lama largo. Carregador de 3 A, o mais rápido da linha.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"3 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Azul · Laranja"}]'::jsonb),
 
-  (6, '701 Mini', 'Scooter', '701-mini',
+  (6, '701 Mini', 'autopropelido', '701-mini',
    'A 701 num corpo menor, para quem quer o mesmo visual em rua apertada.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Azul · Laranja"}]'::jsonb),
 
   -- ---------- Motos elétricas ----------
-  (7, 'E10', 'Moto elétrica', 'e10',
+  (7, 'E10', 'autopropelido', 'e10',
    'Carenagem fechada, baú traseiro e farol de LED. A cara de moto, com 1.000 W embaixo.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Branco · Verde · Cinza"}]'::jsonb),
 
-  (8, 'E20', 'Moto elétrica', 'e20',
+  (8, 'E20', 'autopropelido', 'e20',
    'Linhas retas, farol quadrado e detalhes em verde-limão. A esportiva da linha E.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Branco · Cinza"}]'::jsonb),
 
-  (9, 'E30', 'Moto elétrica', 'e30',
+  (9, 'E30', 'autopropelido', 'e30',
    'Acabamento liso, espelhos e farol integrado à carenagem. A mais sóbria das E.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Azul · Marrom · Branco"}]'::jsonb),
 
-  (10, 'E40', 'Moto elétrica', 'e40',
+  (10, 'E40', 'autopropelido', 'e40',
    'A maior da linha E: para-brisa, farol duplo e banco alongado para dois.',
    '[{"r":"Motor","v":"1.000 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Branco · Verde · Marrom"}]'::jsonb),
 
   -- ---------- Ciclomotores ----------
-  (12, '1822', 'Ciclomotor', '1822',
+  (12, '1822', 'autopropelido', '1822',
    'Banco duplo, cesto na frente e bagageiro atrás. Bateria de 60 V no corpo mais leve da linha.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 20 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Verde · Branco"}]'::jsonb),
 
-  (13, '1958', 'Ciclomotor', '1958',
+  (13, '1958', 'autopropelido', '1958',
    'Painel redondo, cesto de vime e barra lateral laranja. O de visual mais retrô.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (14, '1962', 'Ciclomotor', '1962',
+  (14, '1962', 'autopropelido', '1962',
    'Farol duplo redondo, estribo largo e garupa com encosto.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (15, '1970', 'Ciclomotor', '1970',
+  (15, '1970', 'autopropelido', '1970',
    'Espelhos, cesto na frente e baú lateral. O mais completo dos ciclomotores.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"60 V · 21 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
-  (16, '1994', 'Ciclomotor', '1994',
+  (16, '1994', 'autopropelido', '1994',
    'O mais simples da linha: leve, com cesto, dois bancos e nada sobrando.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 20 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Branco"}]'::jsonb),
 
-  (17, '2002', 'Ciclomotor', '2002',
+  (17, '2002', 'autopropelido', '2002',
    'Rodas maiores, quadro reforçado e garupa larga. O de carga entre os ciclomotores.',
    '[{"r":"Motor","v":"800 W"},{"r":"Bateria","v":"48 V · 20 A"},{"r":"Velocidade","v":"32 km/h"},{"r":"Carregador","v":"2 A"},{"r":"Recarga","v":"5 horas"},{"r":"Cores","v":"Preto · Vermelho · Cinza"}]'::jsonb),
 
@@ -243,7 +249,7 @@ select c.nome,
 insert into public.bolin_modelos
        (nome, selo, pitch, foto, foto_caminho, fotos, specs, ativo, ordem)
 values ('E50',
-        'Moto elétrica',
+        'autopropelido',
         'Baú de série, espelhos e faixa de LED acesa na frente. A mais equipada da linha E.',
         '/catalogo/e50.jpg',
         '',                                  -- não está no balde: é arquivo do site
