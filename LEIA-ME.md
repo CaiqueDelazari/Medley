@@ -344,9 +344,18 @@ normal. Dá para levar o tempo que precisar nesta etapa.
 
 ### 3. Levar o DNS para o Cloudflare
 
-O domínio está no **registro.br**, na conta do Caique (CADEL187). Para o
-`bolinmotoseletricas.com.br` sem `www` apontar para o Pages, o DNS precisa
-estar no Cloudflare:
+O domínio está no **registro.br**, na conta do Caique (CADEL187), mas **quem
+responde pelo DNS hoje é o próprio Netlify**: os servidores de nome são
+`dns1.p09.nsone.net` até `dns4` (NS1, que é o DNS do Netlify), e apex e `www`
+apontam os dois para `54.232.119.62`. Não existe **nenhum registro MX nem
+TXT** — não há e-mail no domínio, nada a preservar além do site.
+
+Isso importa por um motivo: **apagar o site do Netlify antes de mover os
+servidores de nome derruba o domínio inteiro**, não só o site, porque o DNS
+mora lá. A ordem abaixo é obrigatória.
+
+Para o `bolinmotoseletricas.com.br` sem `www` apontar para o Pages, o DNS
+precisa estar no Cloudflare:
 
 1. **dash.cloudflare.com → Add a site →** `bolinmotoseletricas.com.br`, plano
    **Free**. O Cloudflare varre o DNS atual e copia os registros.
@@ -355,9 +364,10 @@ estar no Cloudflare:
    Netlify e pôr os dois do Cloudflare.
 4. Esperar. Costuma valer em minutos, mas o prazo honesto é **até 24 horas**.
 
-> Isso move o DNS inteiro do domínio, não só o site. Se um dia entrar e-mail
-> `@bolinmotoseletricas.com.br`, conferir na etapa 1 se os registros MX foram
-> copiados junto — hoje não existe nenhum, o contato é o Gmail e o WhatsApp.
+> A varredura da etapa 1 só enxerga o que existe **enquanto o Netlify ainda
+> estiver de pé** — por isso ela vem antes de qualquer limpeza lá. Como hoje
+> só existem o apex e o `www`, e o Pages recria os dois sozinho na etapa 4, na
+> prática não há registro nenhum a salvar.
 
 ### 4. Ligar o domínio no Pages
 
