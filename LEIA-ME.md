@@ -10,7 +10,8 @@ quem abrir o site.
 ## Arquivos
 
 O que está dentro de **`site/`** é o site. O que está fora **nunca vai para
-o ar** — quem garante isso é o `netlify.toml`.
+o ar** — quem garante isso é o `wrangler.toml` (e, enquanto o Netlify não for
+desligado, o `netlify.toml`).
 
 | Arquivo | O que é |
 |---|---|
@@ -19,7 +20,8 @@ o ar** — quem garante isso é o `netlify.toml`.
 | `site/catalogo/` | As fotos dos 35 produtos: as dos PDFs do fabricante mais as três do E50, que a loja tirou |
 | `site/videos/` | Os três vídeos da seção "Em movimento" |
 | `site/Logo (2).jpeg` | Logo da marca |
-| `netlify.toml` | Diz ao Netlify que só a pasta `site/` é publicada |
+| `wrangler.toml` | Diz ao Cloudflare Pages que só a pasta `site/` é publicada |
+| `netlify.toml` | O mesmo para o Netlify — fica até a troca de servidor terminar |
 | `supabase-bolin.sql` | Estrutura do banco — roda uma vez no Supabase |
 | `supabase-bolin-catalogo.sql` | Conteúdo do catálogo — limpa e cadastra os 35 produtos |
 | `LEIA-ME.md` | Este arquivo |
@@ -300,9 +302,81 @@ Google. O da conversão, em Metas > Conversões > a ação > Tag do Google.
 
 ---
 
+## Trocar o servidor: do Netlify para o Cloudflare Pages
+
+**Por que trocar.** O Netlify grátis dá **300 créditos por mês para a equipe
+inteira**, e **cada publicação custa ~15**. São ~20 publicações no mês, e isso
+antes de contar banda. Em **24/08/2026** os créditos acabaram no meio do
+ciclo — 14 publicações da BOLIN somaram 210 créditos, mais 111 de banda — e o
+Netlify **pausou o site sozinho**: o endereço passou a responder
+`503 {"error":"usage_exceeded"}`. Não foi bug do site, e `git push` não
+religa. Se entrar tráfego pago, os 9,3 MB de vídeo derrubam de novo, mais
+rápido.
+
+No **Cloudflare Pages** grátis a banda é **ilimitada** e são **500 builds por
+mês**. O site continua o mesmo, no mesmo repositório: muda só quem serve.
+
+O `wrangler.toml` já está no repositório e faz lá o que o `netlify.toml` faz
+aqui — publicar **só a pasta `site/`**. Falta a parte que só dá para fazer no
+painel:
+
+### 1. Criar o projeto no Cloudflare
+
+Em **dash.cloudflare.com → Workers & Pages → Create → Pages → Connect to Git**,
+autorizar o GitHub e escolher **CaiqueDelazari/Medley**, branch `main`.
+
+Quando ele perguntar o framework e o comando de build: **nenhum**, campo vazio.
+O `wrangler.toml` já responde por isso. Salvar e publicar — em um ou dois
+minutos sai um endereço `bolin.pages.dev`.
+
+### 2. Conferir antes de mexer no domínio
+
+Abrir o `bolin.pages.dev` e olhar:
+
+- a página abre e o catálogo carrega (ele vem do Supabase, não do servidor —
+  se aparecerem os 35 modelos, está certo);
+- os vídeos tocam;
+- **`bolin.pages.dev/LEIA-ME.md` tem que dar 404.** Se abrir o arquivo, o
+  `wrangler.toml` não foi lido — parar aqui.
+
+Enquanto o domínio não for movido, o site do cliente continua no Netlify,
+normal. Dá para levar o tempo que precisar nesta etapa.
+
+### 3. Levar o DNS para o Cloudflare
+
+O domínio está no **registro.br**, na conta do Caique (CADEL187). Para o
+`bolinmotoseletricas.com.br` sem `www` apontar para o Pages, o DNS precisa
+estar no Cloudflare:
+
+1. **dash.cloudflare.com → Add a site →** `bolinmotoseletricas.com.br`, plano
+   **Free**. O Cloudflare varre o DNS atual e copia os registros.
+2. Ele mostra **dois servidores de nome** (algo como `xxx.ns.cloudflare.com`).
+3. No **registro.br → o domínio → Alterar servidores DNS**, apagar os do
+   Netlify e pôr os dois do Cloudflare.
+4. Esperar. Costuma valer em minutos, mas o prazo honesto é **até 24 horas**.
+
+> Isso move o DNS inteiro do domínio, não só o site. Se um dia entrar e-mail
+> `@bolinmotoseletricas.com.br`, conferir na etapa 1 se os registros MX foram
+> copiados junto — hoje não existe nenhum, o contato é o Gmail e o WhatsApp.
+
+### 4. Ligar o domínio no Pages
+
+No projeto do Pages → **Custom domains → Set up a domain** →
+`bolinmotoseletricas.com.br`, e repetir para `www.bolinmotoseletricas.com.br`.
+Com o DNS já no Cloudflare ele cria os registros e o certificado sozinho.
+
+### 5. Desligar o Netlify
+
+Só depois do domínio abrindo pelo Cloudflare, e depois de um dia ou dois de
+site no ar: no Netlify, remover o domínio do site e apagar o projeto. Aí o
+`netlify.toml` pode sair do repositório — até lá ele fica, que é o caminho de
+volta se algo der errado.
+
+---
+
 ## Publicar
 
-**Publicar é dar `git push`.** O Netlify está ligado ao repositório
+**Publicar é dar `git push`.** O servidor está ligado ao repositório
 [CaiqueDelazari/Medley](https://github.com/CaiqueDelazari/Medley) e publica
 sozinho a cada push no `main`:
 
@@ -312,20 +386,24 @@ git commit -m "o que mudou"
 git push
 ```
 
-Em um ou dois minutos o site novo está no ar, no mesmo endereço. Dá para
-acompanhar em **app.netlify.com → o site → aba Deploys**.
+Em um ou dois minutos o site novo está no ar, no mesmo endereço.
 
-Não existe arrastar pasta: a área de drag-and-drop do Netlify só aparece em
-site sem repositório ligado. E não existe mais a pasta `publicar/` — ela era a
+**Publica-se uma vez por push, não uma por commit.** Commitar à vontade na
+máquina e dar **um push só no fim da sessão** é o que segura o gasto — foi
+picar ajuste pequeno em push separado que estourou o plano do Netlify em
+agosto de 2026. No Cloudflare Pages sobra folga (500 builds/mês), mas o hábito
+continua valendo.
+
+Não existe arrastar pasta. E não existe mais a pasta `publicar/` — ela era a
 cópia que se arrastava, e virou a `site/`.
 
 ### Por que `site/` existe
 
-O Netlify publicava a raiz do repositório inteira, e por causa disso o SQL e
+O servidor publicava a raiz do repositório inteira, e por causa disso o SQL e
 este LEIA-ME ficaram acessíveis no endereço do site
 (`bolinmotoseletricas.com.br/supabase-bolin.sql` abria o arquivo). O
-`netlify.toml` fechou isso apontando `publish = "site"`: **só o que está
-dentro de `site/` vai para o ar.**
+`wrangler.toml` (Cloudflare) e o `netlify.toml` fecham isso apontando a pasta
+`site`: **só o que está dentro de `site/` vai para o ar.**
 
 Então, na hora de acrescentar arquivo novo:
 

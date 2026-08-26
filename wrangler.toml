@@ -1,0 +1,15 @@
+# Só a pasta "site" vai para o ar — mesma regra do netlify.toml, agora no
+# Cloudflare Pages.
+#
+# O que estiver fora de site/ (SQL, LEIA-ME) fica no repositório e nunca é
+# publicado. Sem isso o Cloudflare publicaria a raiz inteira e
+# bolinmotoseletricas.com.br/supabase-bolin.sql voltaria a abrir o arquivo —
+# que conta, entre outras coisas, que o mesmo Supabase atende a
+# Agropecuária JG.
+#
+# Este arquivo vale mais que o que estiver configurado no painel do
+# Cloudflare. O site é HTML puro: não existe comando de build.
+
+name = "bolin"
+pages_build_output_dir = "site"
+compatibility_date = "2026-08-26"
