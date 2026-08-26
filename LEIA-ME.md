@@ -19,6 +19,7 @@ desligado, o `netlify.toml`).
 | `site/privacidade.html` | Política de privacidade — exigida pelo Google Ads e pela LGPD |
 | `site/catalogo/` | As fotos dos 35 produtos: as dos PDFs do fabricante mais as três do E50, que a loja tirou |
 | `site/videos/` | Os três vídeos da seção "Em movimento" |
+| `site/404.html` | Página de endereço errado — sem ela o Cloudflare devolve a home com status 200, que o Google conta como erro |
 | `site/Logo (2).jpeg` | Logo da marca |
 | `wrangler.toml` | Diz ao Cloudflare Pages que só a pasta `site/` é publicada |
 | `netlify.toml` | O mesmo para o Netlify — fica até a troca de servidor terminar |
@@ -336,8 +337,20 @@ Abrir o `bolin.pages.dev` e olhar:
 - a página abre e o catálogo carrega (ele vem do Supabase, não do servidor —
   se aparecerem os 35 modelos, está certo);
 - os vídeos tocam;
-- **`bolin.pages.dev/LEIA-ME.md` tem que dar 404.** Se abrir o arquivo, o
-  `wrangler.toml` não foi lido — parar aqui.
+- **`<projeto>.pages.dev/LEIA-ME.md` tem que dar 404.** Se abrir o conteúdo do
+  arquivo, o `wrangler.toml` não foi lido — parar aqui.
+
+Duas diferenças do Cloudflare em relação ao Netlify, já resolvidas mas que vale
+saber:
+
+- **Endereço que não existe.** Sem um `404.html` na pasta, o Cloudflare devolve
+  a **home com status 200** em vez de 404 — o Google chama isso de "soft 404" e
+  conta como erro em landing de anúncio. O `site/404.html` existe para isso.
+  O conteúdo nunca vazou: `/supabase-bolin.sql` devolvia o HTML da home, não o
+  SQL.
+- **O `.html` some da URL.** `/privacidade.html` responde **308** e manda para
+  `/privacidade`. Os links do site continuam funcionando, é só um salto a mais.
+  Se um dia precisar de link limpo em anúncio, use `/privacidade` direto.
 
 Enquanto o domínio não for movido, o site do cliente continua no Netlify,
 normal. Dá para levar o tempo que precisar nesta etapa.
