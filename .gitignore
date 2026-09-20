@@ -10,3 +10,7 @@ site/_previa-catalogo.html
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Segredos exclusivos da instalação no VPS
+.env
+node_modules/

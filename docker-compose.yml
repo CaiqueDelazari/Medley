@@ -1,0 +1,21 @@
+services:
+  app:
+    build: .
+    container_name: bolin-app
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH}
+      JWT_SECRET: ${JWT_SECRET}
+    volumes:
+      - bolin_uploads:/app/uploads
+    networks:
+      - restaurantes
+
+volumes:
+  bolin_uploads:
+
+networks:
+  restaurantes:
+    external: true
+    name: dlz-restaurantes_default

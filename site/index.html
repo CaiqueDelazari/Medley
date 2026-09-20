@@ -1472,7 +1472,6 @@
   })();
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =====================================================================
    ÁREA DO ADMINISTRADOR — fotos e textos guardados no banco (Supabase).
@@ -1489,14 +1488,60 @@
    regras (RLS) do arquivo SQL: qualquer um lê, só o dono escreve.
    ===================================================================== */
 (function () {
-  var SUPABASE_URL = "https://vvasybgcuxiufimnmfxa.supabase.co";
-  var SUPABASE_ANON_KEY = "sb_publishable_uvmoyalfvsMxd03EAgnRLw_2BLgNvPy";
-  var BALDE = "bolin";           /* pasta das fotos no Storage */
+  var BALDE = "bolin";           /* pasta das fotos no servidor */
   var LARGURA_MAX = 1100;
 
-  var sb = window.supabase
-    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-    : null;
+  /* O site agora fala com a API do próprio VPS. A camada mantém os nomes
+     usados pelo painel antigo, mas não carrega chave nem SDK externo. */
+  function criarClienteLocal() {
+    function pedido(url, opcoes) {
+      return fetch(url, opcoes).then(async function (r) {
+        var corpo = null;
+        try { corpo = r.status === 204 ? null : await r.json(); } catch (e) {}
+        return { data: r.ok ? corpo : null, error: r.ok ? null : new Error((corpo && corpo.error) || "Não consegui salvar.") };
+      }).catch(function () { return { data: null, error: new Error("Sem conexão com o servidor.") }; });
+    }
+    function tabela(nome) {
+      var estado = { modo: "select", dados: null, filtro: null };
+      var q = {
+        select: function () { return q; }, order: function () { return q; }, single: function () { return q; },
+        eq: function (campo, valor) { estado.filtro = { campo: campo, valor: valor, neq: false }; return q; },
+        neq: function (campo, valor) { estado.filtro = { campo: campo, valor: valor, neq: true }; return q; },
+        update: function (dados) { estado.modo = "update"; estado.dados = dados; return q; },
+        insert: function (dados) { estado.modo = "insert"; estado.dados = dados; return q; },
+        delete: function () { estado.modo = "delete"; return q; },
+        upsert: function (dados) { estado.modo = "upsert"; estado.dados = dados; return q; },
+        then: function (ok, falhar) {
+          var url = nome === "bolin_modelos" ? "/api/modelos" : "/api/conteudo";
+          var opcoes = {};
+          if (estado.modo === "select") return pedido(url).then(ok, falhar);
+          if (nome === "bolin_modelos") {
+            if (estado.modo === "insert") { url = "/api/admin/modelos"; opcoes = { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(estado.dados) }; }
+            else { url = "/api/admin/modelos" + (estado.modo === "delete" && estado.filtro && estado.filtro.neq ? "" : "/" + encodeURIComponent(estado.filtro && estado.filtro.valor)); opcoes = { method: estado.modo === "delete" ? "DELETE" : "PATCH", headers: { "Content-Type": "application/json" }, body: estado.modo === "delete" ? undefined : JSON.stringify(estado.dados) }; }
+          } else {
+            url = "/api/admin/conteudo" + (estado.modo === "delete" && estado.filtro && estado.filtro.neq ? "" : "/" + encodeURIComponent((estado.dados && estado.dados.chave) || (estado.filtro && estado.filtro.valor)));
+            opcoes = { method: estado.modo === "delete" ? "DELETE" : "PUT", headers: { "Content-Type": "application/json" }, body: estado.modo === "delete" ? undefined : JSON.stringify({ valor: estado.dados && estado.dados.valor }) };
+          }
+          return pedido(url, opcoes).then(ok, falhar);
+        }
+      };
+      return q;
+    }
+    return {
+      from: tabela,
+      auth: {
+        signInWithPassword: function (dados) { return pedido("/api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ senha: dados.password }) }); },
+        signOut: function () { return pedido("/api/logout", { method: "POST" }); },
+        getSession: function () { return pedido("/api/sessao").then(function (r) { return { data: { session: r.data && r.data.ativa ? { local: true } : null }, error: r.error }; }); }
+      },
+      storage: { from: function () { return {
+        upload: function (_nome, blob) { var f = new FormData(); f.append("fotos", blob, "foto.jpg"); return pedido("/api/admin/upload", { method: "POST", body: f }).then(function (r) { return { data: r.data && r.data[0] ? { path: r.data[0].c, publicUrl: r.data[0].u } : null, error: r.error }; }); },
+        getPublicUrl: function (nome) { return { data: { publicUrl: "/uploads/" + nome } }; },
+        remove: function (caminhos) { return pedido("/api/admin/upload", { method: "DELETE", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ caminhos: caminhos }) }); }
+      }; } }
+    };
+  }
+  var sb = criarClienteLocal();
 
   /* Textos fixos da página que podem ser reescritos. Os modelos NÃO entram
      aqui — eles vêm do banco e cada um salva no seu próprio registro.
@@ -1870,7 +1915,7 @@
       });
       if (envio.error) { falhas++; continue; }
 
-      novas.push({ u: sb.storage.from(BALDE).getPublicUrl(nome).data.publicUrl, c: nome });
+      novas.push({ u: envio.data.publicUrl, c: envio.data.path });
     }
 
     if (!novas.length) {
@@ -2395,6 +2440,7 @@
     textos.forEach(function (el) { el.setAttribute("contenteditable", "true"); });
     montarBarra();
     montarBotaoNovo();
+    carregarModelos();        /* busca também os modelos escondidos no painel */
     renderModelos();          /* redesenha os cards já com os controles */
     fechar();
   }

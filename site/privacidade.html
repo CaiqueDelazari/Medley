@@ -251,8 +251,6 @@
    um número velho. Se a leitura falhar, fica o que já está escrito no HTML.
    A chave abaixo é a publishable/anon, pública de propósito. */
 (function () {
-  var URL = "https://vvasybgcuxiufimnmfxa.supabase.co";
-  var CHAVE = "sb_publishable_uvmoyalfvsMxd03EAgnRLw_2BLgNvPy";
 
   function bonito(digitos) {
     var d = digitos.replace(/^55/, "");
@@ -261,12 +259,11 @@
     return digitos;
   }
 
-  fetch(URL + "/rest/v1/bolin_conteudo?chave=eq.whatsapp&select=valor", {
-    headers: { apikey: CHAVE, Authorization: "Bearer " + CHAVE }
-  })
+  fetch("/api/conteudo")
     .then(function (r) { return r.ok ? r.json() : []; })
     .then(function (linhas) {
-      var d = (linhas[0] && linhas[0].valor || "").replace(/\D/g, "");
+      var linha = linhas.filter(function (item) { return item.chave === "whatsapp"; })[0];
+      var d = (linha && linha.valor || "").replace(/\D/g, "");
       if (d.length < 10) { return; }
       document.getElementById("link-whats").href = "https://wa.me/" + d;
       document.getElementById("fone-whats").textContent = bonito(d);
