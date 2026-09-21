@@ -18,4 +18,4 @@ volumes:
 networks:
   restaurantes:
     external: true
-    name: dlz-restaurantes_default
+    name: dlz-restaurantes_web
